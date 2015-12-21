@@ -1,3 +1,6 @@
+## Local properties
+gradle.properties
+
 ## Java
 
 *.class

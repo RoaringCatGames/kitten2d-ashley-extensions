@@ -6,12 +6,23 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = [ "src/" ]
 
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+javadoc {
+    title = 'Kitten2d Ashley libGDX Extensions'
 }
+//
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//    classifier = 'sources'
+//    from sourceSets.main.allSource
+//}
+//
+//task artifactDocs(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from 'build/docs/javadoc'
+//}
+//
+//artifacts {
+//    archives jar
+//    archives sourcesJar
+//    archives artifactDocs
+//}
 
-artifacts {
-    archives sourcesJar
-}
