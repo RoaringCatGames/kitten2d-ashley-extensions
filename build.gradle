@@ -17,7 +17,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "test-ecs-box2d"
+        appName = "ashley-gdx-extensions"
         gdxVersion = '1.7.2'
         ashleyVersion = '1.7.0'
     }
@@ -38,4 +38,6 @@ project(":ashley-extensions") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     }
+
+
 }
