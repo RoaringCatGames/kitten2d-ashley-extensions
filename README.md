@@ -85,3 +85,14 @@ A set of Ashley ECS components and systems that are generic, and useful for 2D g
 
 
     //TODO: Provide Example Usage
+
+### Rotation System
+
+- Rotates entities at their given speed
+- Supports a ```targetRotation``` so you can rotate to a specific rotation amount
+  - Supports values larger than 360 degrees in targetRotation to allow for scenarios like "rotate 3 times" via the RotationComponent
+  - Removes the RotationComponent from the entity once reaching the target Rotation
+- Example Usage:
+
+
+    //TODO: Provide Example Usage
