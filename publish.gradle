@@ -5,7 +5,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'com.roaringcatgames.kitten2d.ashley'
-version = '0.0.4'
+version = '0.0.07'
 ext.packaging = 'jar'
 
 def isDevBuild

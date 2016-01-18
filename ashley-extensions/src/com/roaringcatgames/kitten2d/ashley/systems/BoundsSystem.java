@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.roaringcatgames.kitten2d.ashley.VectorUtils;
 import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
+import com.roaringcatgames.kitten2d.ashley.components.CircleBoundsComponent;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 
 /**
@@ -16,26 +17,30 @@ import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 public class BoundsSystem extends IteratingSystem {
 
     ComponentMapper<BoundsComponent> bm;
+    ComponentMapper<CircleBoundsComponent> cm;
     ComponentMapper<TransformComponent> tm;
     public BoundsSystem(){
-        super(Family.all(BoundsComponent.class,
-                TransformComponent.class).get());
+        super(Family.all(TransformComponent.class)
+                .one(BoundsComponent.class, CircleBoundsComponent.class).get());
 
         bm = ComponentMapper.getFor(BoundsComponent.class);
+        cm = ComponentMapper.getFor(CircleBoundsComponent.class);
         tm = ComponentMapper.getFor(TransformComponent.class);
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         TransformComponent tfm = tm.get(entity);
-        BoundsComponent bounds = bm.get(entity);
+
 
         float xOffsetAdjust = tfm.scale.x >= 0f ? 1f : -1f;
         float yOffsetAdjust = tfm.scale.y >= 0f ? 1f : -1f;
 
-        Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
-        if(tfm.rotation != 0f){
-            rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
+        if(bm.has(entity)) {
+            BoundsComponent bounds = bm.get(entity);
+            Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
+            if (tfm.rotation != 0f) {
+                rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
 //            //Implemented from http://www.collisiondetection2d.net
 //            float radians = MathUtils.degreesToRadians * tfm.rotation;
 //            float sine = MathUtils.sin(radians);
@@ -43,9 +48,26 @@ public class BoundsSystem extends IteratingSystem {
 //            float newX = (rotatedOffset.x * cosine) - (rotatedOffset.y * sine);
 //            float newY = (rotatedOffset.x * sine) + (rotatedOffset.y * cosine);
 //            rotatedOffset.set(newX, newY);
-        }
+            }
 
-        bounds.bounds.x = tfm.position.x - bounds.bounds.width * 0.5f + rotatedOffset.x; //(bounds.offset.x*xOffsetAdjust);
-        bounds.bounds.y = tfm.position.y - bounds.bounds.height * 0.5f + rotatedOffset.y; //(bounds.offset.y*yOffsetAdjust);
+            bounds.bounds.x = tfm.position.x - bounds.bounds.width * 0.5f + rotatedOffset.x; //(bounds.offset.x*xOffsetAdjust);
+            bounds.bounds.y = tfm.position.y - bounds.bounds.height * 0.5f + rotatedOffset.y; //(bounds.offset.y*yOffsetAdjust);
+        }else if(cm.has(entity)){
+            CircleBoundsComponent bounds = cm.get(entity);
+            Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
+            if (tfm.rotation != 0f) {
+                rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
+//            //Implemented from http://www.collisiondetection2d.net
+//            float radians = MathUtils.degreesToRadians * tfm.rotation;
+//            float sine = MathUtils.sin(radians);
+//            float cosine = MathUtils.cos(radians);
+//            float newX = (rotatedOffset.x * cosine) - (rotatedOffset.y * sine);
+//            float newY = (rotatedOffset.x * sine) + (rotatedOffset.y * cosine);
+//            rotatedOffset.set(newX, newY);
+            }
+
+            bounds.circle.x = tfm.position.x + rotatedOffset.x; //(bounds.offset.x*xOffsetAdjust);
+            bounds.circle.y = tfm.position.y + rotatedOffset.y; //(bounds.offset.y*yOffsetAdjust);
+        }
     }
 }
