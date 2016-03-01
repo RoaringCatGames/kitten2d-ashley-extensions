@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.VectorUtils;
 import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
 import com.roaringcatgames.kitten2d.ashley.components.CircleBoundsComponent;
+import com.roaringcatgames.kitten2d.ashley.components.PathFollowComponent;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 
 /**
@@ -31,18 +32,21 @@ public class DebugSystem extends IteratingSystem {
 
     private Array<Entity> rectangles;
     private Array<Entity> circles;
+    private Array<Entity> paths;
 
     private int pixelsPerUnit = 1;
+    private Vector2 v1, v2, pPos;
 
     ComponentMapper<BoundsComponent> bm;
     ComponentMapper<CircleBoundsComponent> cm;
     ComponentMapper<TransformComponent> tm;
+    ComponentMapper<PathFollowComponent> pm;
 
     private boolean isDebugMode = false;
 
 
     public DebugSystem(OrthographicCamera camera, Color boundsColor, Color originColor, int...debugKeys){
-        super(Family.one(CircleBoundsComponent.class, BoundsComponent.class).get());
+        super(Family.one(CircleBoundsComponent.class, BoundsComponent.class, PathFollowComponent.class).get());
         init(camera, boundsColor, originColor, debugKeys);
     }
 
@@ -68,10 +72,15 @@ public class DebugSystem extends IteratingSystem {
         shapeRenderer = new ShapeRenderer();
         rectangles = new Array<>();
         circles = new Array<>();
+        paths = new Array<>();
+        v1 = new Vector2();
+        v2 = new Vector2();
+        pPos = new Vector2();
 
         bm = ComponentMapper.getFor(BoundsComponent.class);
         tm = ComponentMapper.getFor(TransformComponent.class);
         cm = ComponentMapper.getFor(CircleBoundsComponent.class);
+        pm = ComponentMapper.getFor(PathFollowComponent.class);
     }
 
     @Override
@@ -128,7 +137,36 @@ public class DebugSystem extends IteratingSystem {
                     shapeRenderer.line(boundsCenterX, boundsCenterY, boundsCenterX - offset.x, boundsCenterY - offset.y);
                 }
             }
+
             shapeRenderer.end();
+
+            for(Entity path:paths){
+                //Render Curve with 100 samples
+                PathFollowComponent pc = pm.get(path);
+                float k = 100f;
+                Gdx.gl20.glLineWidth(3f);
+                shapeRenderer.setProjectionMatrix(cam.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(Color.GREEN);
+                for(float i = 0f; i < k-1f; ++i)
+                {
+                    pc.path.valueAt(v1, (i / k));
+                    pc.path.valueAt(v2, ((i + 1f) / k));
+                    shapeRenderer.line(v1, v2);
+                }
+                //Render End Points
+                shapeRenderer.setColor(Color.MAGENTA);
+                pc.path.valueAt(v1, 0f);
+                pc.path.valueAt(v2, 1f);
+                pc.path.valueAt(pPos, (pc.elapsedTime/pc.totalPathTime));
+                shapeRenderer.circle(v1.x, v1.y, 1f);
+                shapeRenderer.circle(v2.x, v2.y, 1f);
+                shapeRenderer.circle(pPos.x, pPos.y, 1f);
+
+
+
+                shapeRenderer.end();
+            }
         }
 
         rectangles.clear();
@@ -142,6 +180,10 @@ public class DebugSystem extends IteratingSystem {
             rectangles.add(entity);
         }else{
             circles.add(entity);
+        }
+
+        if(pm.has(entity)){
+            paths.add(entity);
         }
     }
 }
