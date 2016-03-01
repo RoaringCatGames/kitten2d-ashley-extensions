@@ -171,6 +171,7 @@ public class DebugSystem extends IteratingSystem {
 
         rectangles.clear();
         circles.clear();
+        paths.clear();
     }
 
     @Override
