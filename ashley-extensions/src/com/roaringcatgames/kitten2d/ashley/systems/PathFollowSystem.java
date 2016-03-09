@@ -27,22 +27,30 @@ public class PathFollowSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PathFollowComponent pc = pm.get(entity);
         if(!pc.isPaused && pc.path != null){
-            float newElapsed = Math.min((pc.elapsedTime + deltaTime), pc.totalPathTime);
-            if(newElapsed == pc.totalPathTime){
+
+            float adjust = pc.speed*deltaTime;
+            float newPosition = Math.min(pc.pathPosition + adjust, 1f);
+            if(newPosition == 1f){
                 pc.setPaused(true);
             }
-            pc.setElapsedTime(newElapsed);
-            float pathTime = pc.elapsedTime/pc.totalPathTime;
-            pc.path.valueAt(pc.point, pathTime);
+            pc.setPathPosition(newPosition);
+//            float newElapsed = Math.min((pc.elapsedTime + deltaTime), pc.totalPathTime);
+//            if(newElapsed == pc.totalPathTime){
+//                pc.setPaused(true);
+//            }
+            //pc.setElapsedTime(newElapsed);
+
+            //float pathTime = pc.elapsedTime/pc.totalPathTime;
+            pc.path.valueAt(pc.point, pc.pathPosition); //pathTime);
 
             TransformComponent tc = tm.get(entity);
             tc.setPosition(pc.point.x, pc.point.y);
 
             if(pc.isFacingPath) {
-                pc.path.derivativeAt(pc.point, pathTime);
+                pc.path.derivativeAt(pc.point, pc.pathPosition);//pathTime);
                 //We add 90 degrees to our angle, because the angle
                 //  starts
-                tc.rotation = -90f + pc.point.angle();
+                tc.rotation = pc.baseRotation + (pc.point.angle() - 90f);
             }
         }
     }

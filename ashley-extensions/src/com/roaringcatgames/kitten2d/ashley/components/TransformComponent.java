@@ -12,6 +12,7 @@ public class TransformComponent implements Component {
     public final Vector2 scale = new Vector2(1.0f, 1.0f);
     public float rotation = 0.0f;
     public boolean isHidden = false;
+    public float opacity = 1f;
 
     public static TransformComponent create(){
         return new TransformComponent();
@@ -22,6 +23,11 @@ public class TransformComponent implements Component {
     }
     public TransformComponent setPosition(float x, float y, float z){
         this.position.set(x, y, z);
+        return this;
+    }
+
+    public TransformComponent setOpacity(float opacity){
+        this.opacity = opacity;
         return this;
     }
 

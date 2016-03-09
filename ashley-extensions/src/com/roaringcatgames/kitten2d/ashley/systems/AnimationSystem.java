@@ -35,6 +35,8 @@ public class AnimationSystem extends IteratingSystem {
             tex.region = ani.animations.get(state.get()).getKeyFrame(state.time, state.isLooping);
         }
 
-        state.time += deltaTime;
+        if(!ani.isPaused) {
+            state.time += deltaTime;
+        }
     }
 }

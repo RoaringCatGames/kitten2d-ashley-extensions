@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -77,6 +78,9 @@ public class RenderingSystem extends IteratingSystem {
             }
 
 
+            Color c = batch.getColor();
+            Color newColor = new Color(c.r, c.g, c.b, t.opacity);
+            batch.setColor(newColor);
             float width = tex.region.getRegionWidth();
             float height = tex.region.getRegionHeight();
 
@@ -89,6 +93,7 @@ public class RenderingSystem extends IteratingSystem {
                     width, height,
                     PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
                     t.rotation);
+            batch.setColor(c);
         }
 
         batch.end();

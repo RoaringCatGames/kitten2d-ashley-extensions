@@ -9,12 +9,17 @@ import com.badlogic.gdx.utils.ArrayMap;
  */
 public class AnimationComponent implements Component {
     public ArrayMap<String, Animation> animations = new ArrayMap<String, Animation>();
+    public boolean isPaused = false;
 
     public static AnimationComponent create(){
         return new AnimationComponent();
     }
     public AnimationComponent addAnimation(String stateName, Animation animation){
         this.animations.put(stateName, animation);
+        return this;
+    }
+    public AnimationComponent setPaused(boolean isPaused){
+        this.isPaused = isPaused;
         return this;
     }
 

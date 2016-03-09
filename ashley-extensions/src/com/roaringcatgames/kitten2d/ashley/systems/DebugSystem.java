@@ -158,7 +158,7 @@ public class DebugSystem extends IteratingSystem {
                 shapeRenderer.setColor(Color.MAGENTA);
                 pc.path.valueAt(v1, 0f);
                 pc.path.valueAt(v2, 1f);
-                pc.path.valueAt(pPos, (pc.elapsedTime/pc.totalPathTime));
+                pc.path.valueAt(pPos, pc.pathPosition);//(pc.elapsedTime/pc.totalPathTime));
                 shapeRenderer.circle(v1.x, v1.y, 1f);
                 shapeRenderer.circle(v2.x, v2.y, 1f);
                 shapeRenderer.circle(pPos.x, pPos.y, 1f);
