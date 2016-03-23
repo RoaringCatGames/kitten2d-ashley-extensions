@@ -41,33 +41,19 @@ public class BoundsSystem extends IteratingSystem {
             Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
             if (tfm.rotation != 0f) {
                 rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
-//            //Implemented from http://www.collisiondetection2d.net
-//            float radians = MathUtils.degreesToRadians * tfm.rotation;
-//            float sine = MathUtils.sin(radians);
-//            float cosine = MathUtils.cos(radians);
-//            float newX = (rotatedOffset.x * cosine) - (rotatedOffset.y * sine);
-//            float newY = (rotatedOffset.x * sine) + (rotatedOffset.y * cosine);
-//            rotatedOffset.set(newX, newY);
             }
 
-            bounds.bounds.x = tfm.position.x - bounds.bounds.width * 0.5f + rotatedOffset.x; //(bounds.offset.x*xOffsetAdjust);
-            bounds.bounds.y = tfm.position.y - bounds.bounds.height * 0.5f + rotatedOffset.y; //(bounds.offset.y*yOffsetAdjust);
+            bounds.bounds.x = tfm.position.x - bounds.bounds.width * 0.5f + rotatedOffset.x;
+            bounds.bounds.y = tfm.position.y - bounds.bounds.height * 0.5f + rotatedOffset.y;
         }else if(cm.has(entity)){
             CircleBoundsComponent bounds = cm.get(entity);
             Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
             if (tfm.rotation != 0f) {
                 rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
-//            //Implemented from http://www.collisiondetection2d.net
-//            float radians = MathUtils.degreesToRadians * tfm.rotation;
-//            float sine = MathUtils.sin(radians);
-//            float cosine = MathUtils.cos(radians);
-//            float newX = (rotatedOffset.x * cosine) - (rotatedOffset.y * sine);
-//            float newY = (rotatedOffset.x * sine) + (rotatedOffset.y * cosine);
-//            rotatedOffset.set(newX, newY);
             }
 
-            bounds.circle.x = tfm.position.x + rotatedOffset.x; //(bounds.offset.x*xOffsetAdjust);
-            bounds.circle.y = tfm.position.y + rotatedOffset.y; //(bounds.offset.y*yOffsetAdjust);
+            bounds.circle.x = tfm.position.x + rotatedOffset.x;
+            bounds.circle.y = tfm.position.y + rotatedOffset.y;
         }
     }
 }

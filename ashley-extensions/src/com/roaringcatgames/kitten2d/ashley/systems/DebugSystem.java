@@ -158,7 +158,7 @@ public class DebugSystem extends IteratingSystem {
                 shapeRenderer.setColor(Color.MAGENTA);
                 pc.path.valueAt(v1, 0f);
                 pc.path.valueAt(v2, 1f);
-                pc.path.valueAt(pPos, pc.pathPosition);//(pc.elapsedTime/pc.totalPathTime));
+                pc.path.valueAt(pPos, pc.pathPosition);
                 shapeRenderer.circle(v1.x, v1.y, 1f);
                 shapeRenderer.circle(v2.x, v2.y, 1f);
                 shapeRenderer.circle(pPos.x, pPos.y, 1f);
@@ -177,14 +177,16 @@ public class DebugSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime)
     {
-        if(bm.has(entity)){
-            rectangles.add(entity);
-        }else{
-            circles.add(entity);
-        }
+        if(isDebugMode) {
+            if (bm.has(entity)) {
+                rectangles.add(entity);
+            } else {
+                circles.add(entity);
+            }
 
-        if(pm.has(entity)){
-            paths.add(entity);
+            if (pm.has(entity)) {
+                paths.add(entity);
+            }
         }
     }
 }

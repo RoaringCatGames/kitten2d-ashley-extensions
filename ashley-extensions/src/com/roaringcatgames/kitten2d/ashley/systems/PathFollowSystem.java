@@ -34,22 +34,16 @@ public class PathFollowSystem extends IteratingSystem {
                 pc.setPaused(true);
             }
             pc.setPathPosition(newPosition);
-//            float newElapsed = Math.min((pc.elapsedTime + deltaTime), pc.totalPathTime);
-//            if(newElapsed == pc.totalPathTime){
-//                pc.setPaused(true);
-//            }
-            //pc.setElapsedTime(newElapsed);
-
-            //float pathTime = pc.elapsedTime/pc.totalPathTime;
-            pc.path.valueAt(pc.point, pc.pathPosition); //pathTime);
+            pc.path.valueAt(pc.point, pc.pathPosition);
 
             TransformComponent tc = tm.get(entity);
             tc.setPosition(pc.point.x, pc.point.y);
 
             if(pc.isFacingPath) {
-                pc.path.derivativeAt(pc.point, pc.pathPosition);//pathTime);
-                //We add 90 degrees to our angle, because the angle
-                //  starts
+                pc.path.derivativeAt(pc.point, pc.pathPosition);
+                //We subtract 90 degrees to our angle, because the angle
+                //  starts against the x axis instead of the Y
+                //  0° → instead of ↑
                 tc.rotation = pc.baseRotation + (pc.point.angle() - 90f);
             }
         }

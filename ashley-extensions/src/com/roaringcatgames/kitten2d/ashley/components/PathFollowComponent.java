@@ -1,30 +1,40 @@
 package com.roaringcatgames.kitten2d.ashley.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Created by barry on 2/29/16 @ 6:14 PM.
  */
-public class PathFollowComponent  implements Component {
+public class PathFollowComponent  implements Component, Pool.Poolable {
 
     public Vector2 point = new Vector2();
     public Path<Vector2> path;
     public boolean isFacingPath = false;
     public float baseRotation = 0f;
-    /**
-     * Seconds from beginning to end
-     */
-//    public float totalPathTime = 5f;
-//    public float elapsedTime = 0f;
-
-    public float speed = 5f;
-    public float pathPosition = 0f;
     public boolean isPaused = false;
 
-    public static PathFollowComponent create(){
-        return new PathFollowComponent();
+    /**
+     * Path Lifecycles Per Second
+     */
+    public float speed = 5f;
+    /**
+     * Position on path from 0f-1f where 0 is p0,
+     * and 1f is pEnd
+     */
+    public float pathPosition = 0f;
+
+
+    public static PathFollowComponent create(Engine engine){
+        if(engine instanceof PooledEngine){
+            return ((PooledEngine)engine).createComponent(PathFollowComponent.class);
+        }else {
+            return new PathFollowComponent();
+        }
     }
 
     public PathFollowComponent setPath(Path<Vector2> path){
@@ -42,10 +52,6 @@ public class PathFollowComponent  implements Component {
         this.pathPosition = position;
         return this;
     }
-//    public PathFollowComponent setTotalPathTime(float time){
-//        this.totalPathTime = time;
-//        return this;
-//    }
 
     public PathFollowComponent setPaused(boolean shouldPause){
         this.isPaused = shouldPause;
@@ -62,18 +68,13 @@ public class PathFollowComponent  implements Component {
         return this;
     }
 
-    /**
-     * Useful to hack in a "start X% through the path"
-     *  EX: pathComponent.setElapsedTime(0.5f); would set
-     *      the path to start midway through.
-     * @param elapsedTime - The new elapsed time
-     * @return the PathFollowComponent instance being modified
-     */
-//    public PathFollowComponent setElapsedTime(float elapsedTime){
-//        this.elapsedTime = elapsedTime;
-//        return this;
-//    }
-
-
-
+    @Override
+    public void reset() {
+        this.path = null;
+        this.point.set(0f, 0f);
+        this.speed = 5f;
+        this.pathPosition = 0f;
+        this.isFacingPath = false;
+        this.baseRotation = 0f;
+    }
 }
