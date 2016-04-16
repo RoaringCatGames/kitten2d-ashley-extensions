@@ -5,6 +5,8 @@ sourceCompatibility = 1.7
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = [ "src/" ]
+sourceSets.test.java.srcDirs = ["tests/"]
+sourceSets.test.resources.srcDirs = ["tests/"]
 
 javadoc {
     title = 'Kitten2d Ashley libGDX Extensions'

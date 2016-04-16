@@ -14,10 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.VectorUtils;
-import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
-import com.roaringcatgames.kitten2d.ashley.components.CircleBoundsComponent;
-import com.roaringcatgames.kitten2d.ashley.components.PathFollowComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
+import com.roaringcatgames.kitten2d.ashley.components.*;
 
 /**
  * Created by barry on 12/13/15 @ 2:22 PM.
@@ -32,6 +29,7 @@ public class DebugSystem extends IteratingSystem {
 
     private Array<Entity> rectangles;
     private Array<Entity> circles;
+    private Array<Entity> multiBounded;
     private Array<Entity> paths;
 
     private int pixelsPerUnit = 1;
@@ -39,6 +37,7 @@ public class DebugSystem extends IteratingSystem {
 
     ComponentMapper<BoundsComponent> bm;
     ComponentMapper<CircleBoundsComponent> cm;
+    ComponentMapper<MultiBoundsComponent> mbm;
     ComponentMapper<TransformComponent> tm;
     ComponentMapper<PathFollowComponent> pm;
 
@@ -46,12 +45,18 @@ public class DebugSystem extends IteratingSystem {
 
 
     public DebugSystem(OrthographicCamera camera, Color boundsColor, Color originColor, int...debugKeys){
-        super(Family.one(CircleBoundsComponent.class, BoundsComponent.class, PathFollowComponent.class).get());
+        super(Family.one(CircleBoundsComponent.class,
+                          MultiBoundsComponent.class,
+                          BoundsComponent.class, 
+                          PathFollowComponent.class).get());
         init(camera, boundsColor, originColor, debugKeys);
     }
 
     public DebugSystem(OrthographicCamera camera, int...debugKeys){
-        super(Family.all(BoundsComponent.class).get());
+        super(Family.one(CircleBoundsComponent.class,
+                          MultiBoundsComponent.class,
+                          BoundsComponent.class,
+                          PathFollowComponent.class).get());
         init(camera, Color.YELLOW, Color.RED, debugKeys);
     }
 
@@ -73,6 +78,8 @@ public class DebugSystem extends IteratingSystem {
         rectangles = new Array<>();
         circles = new Array<>();
         paths = new Array<>();
+        multiBounded = new Array<>();
+
         v1 = new Vector2();
         v2 = new Vector2();
         pPos = new Vector2();
@@ -81,6 +88,7 @@ public class DebugSystem extends IteratingSystem {
         tm = ComponentMapper.getFor(TransformComponent.class);
         cm = ComponentMapper.getFor(CircleBoundsComponent.class);
         pm = ComponentMapper.getFor(PathFollowComponent.class);
+        mbm = ComponentMapper.getFor(MultiBoundsComponent.class);
     }
 
     @Override
@@ -137,6 +145,38 @@ public class DebugSystem extends IteratingSystem {
                     shapeRenderer.line(boundsCenterX, boundsCenterY, boundsCenterX - offset.x, boundsCenterY - offset.y);
                 }
             }
+            
+            for(Entity multi:multiBounded){
+                MultiBoundsComponent mbc = mbm.get(multi);
+                TransformComponent tc = tm.get(multi);
+                for(Bound bound:mbc.bounds){
+                    shapeRenderer.setColor(boundsColor);
+                    float boundsCenterX;
+                    float boundsCenterY;
+                    if(bound.isCircle){
+
+                        shapeRenderer.circle(bound.circle.x, bound.circle.y, bound.circle.radius);
+                        shapeRenderer.circle(bound.circle.x, bound.circle.y, 0.2f);
+
+                        boundsCenterX = bound.circle.x;
+                        boundsCenterY = bound.circle.y;
+
+                    }else{
+                        shapeRenderer.rect(bound.rect.x, bound.rect.y, bound.rect.width, bound.rect.height);
+                        boundsCenterX = bound.rect.x + (bound.rect.width / 2f);
+                        boundsCenterY = bound.rect.y + (bound.rect.height / 2f);
+                    }
+                    shapeRenderer.setColor(originColor);
+                    shapeRenderer.circle(boundsCenterX, boundsCenterY, 0.2f);
+                    if(bound.offset.x != 0f || bound.offset.y != 0f) {
+                        Vector2 offset = bound.offset;
+                        if(tc != null) {
+                            offset = VectorUtils.rotateVector(offset, tc.rotation);
+                        }
+                        shapeRenderer.line(boundsCenterX, boundsCenterY, boundsCenterX - offset.x, boundsCenterY - offset.y);
+                    }
+                }
+            }
 
             shapeRenderer.end();
 
@@ -172,16 +212,22 @@ public class DebugSystem extends IteratingSystem {
         rectangles.clear();
         circles.clear();
         paths.clear();
+        multiBounded.clear();
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime)
     {
         if(isDebugMode) {
-            if (bm.has(entity)) {
+            
+            if(bm.has(entity)){
                 rectangles.add(entity);
-            } else {
+            }
+            if(cm.has(entity)){
                 circles.add(entity);
+            }
+            if(mbm.has(entity)){
+                multiBounded.add(entity);
             }
 
             if (pm.has(entity)) {
