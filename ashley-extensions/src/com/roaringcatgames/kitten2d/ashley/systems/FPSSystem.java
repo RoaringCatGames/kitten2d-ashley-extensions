@@ -18,9 +18,19 @@ public class FPSSystem extends IteratingSystem {
     private Entity fpsText;
     private BitmapFont font;
     private Vector2 position;
+    private int cyclesPassed = 0;
+    private float timeElapsed = 0f;
+    private float maximumCycles = 5f;
 
     public FPSSystem(BitmapFont font, Vector2 position){
         super(Family.all(FPSComponent.class).get());
+        this.font = font;
+        this.position = position;
+    }
+
+    public FPSSystem(BitmapFont font, Vector2 position, int cyclesToCount) {
+        super(Family.all(FPSComponent.class).get());
+        this.maximumCycles = cyclesToCount;
         this.font = font;
         this.position = position;
     }
@@ -41,6 +51,19 @@ public class FPSSystem extends IteratingSystem {
     }
 
     @Override
+    public void update(float deltaTime) {
+        cyclesPassed++;
+        timeElapsed += deltaTime;
+
+        if(cyclesPassed == maximumCycles){
+            super.update(deltaTime);
+            cyclesPassed = 0;
+            timeElapsed = 0f;
+        }
+
+    }
+
+    @Override
     public void removedFromEngine(Engine engine) {
         super.removedFromEngine(engine);
         if(fpsText != null){
@@ -51,7 +74,9 @@ public class FPSSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        int fps = (int)Math.floor(1f/deltaTime);
+
+        //1 second / Average(cycleTime)
+        int fps = (int)Math.floor(1f/(timeElapsed/cyclesPassed));
         fpsText.getComponent(TextComponent.class).setText("FPS: " + fps);
     }
 }
