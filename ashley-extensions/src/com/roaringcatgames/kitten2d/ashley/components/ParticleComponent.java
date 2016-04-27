@@ -1,6 +1,7 @@
 package com.roaringcatgames.kitten2d.ashley.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Pool;
 
@@ -12,8 +13,13 @@ public class ParticleComponent implements Component, Pool.Poolable {
     public float lifespan = 1f;
     public float timeAlive = 0f;
 
-    public static ParticleComponent create(PooledEngine engine){
-        return engine.createComponent(ParticleComponent.class);
+    public static ParticleComponent create(Engine engine){
+        if(engine instanceof PooledEngine){
+            return ((PooledEngine)engine).createComponent(ParticleComponent.class);
+        }else{
+            return new ParticleComponent();
+        }
+
     }
 
     public ParticleComponent setLifespan(float life){

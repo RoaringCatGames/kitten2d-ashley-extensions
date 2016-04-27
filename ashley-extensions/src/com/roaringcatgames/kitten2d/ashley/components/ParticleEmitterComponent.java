@@ -1,6 +1,7 @@
 package com.roaringcatgames.kitten2d.ashley.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -24,8 +25,13 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
     public boolean isLooping = false;
     public float zIndex = 100f;
 
-    public static ParticleEmitterComponent create(PooledEngine engine) {
-        return engine.createComponent(ParticleEmitterComponent.class);
+    public static ParticleEmitterComponent create(Engine engine) {
+
+        if(engine instanceof PooledEngine) {
+            return ((PooledEngine)engine).createComponent(ParticleEmitterComponent.class);
+        }else{
+            return new ParticleEmitterComponent();
+        }
     }
 
     public ParticleEmitterComponent setParticleImages(Array<? extends TextureRegion> particleImages) {

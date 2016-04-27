@@ -1,6 +1,7 @@
 package com.roaringcatgames.kitten2d.ashley.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Pool;
 
@@ -11,8 +12,12 @@ public class FadingComponent implements Component, Pool.Poolable {
 
     public float percentPerSecond = 5f;
 
-    public static FadingComponent create(PooledEngine engine){
-        return engine.createComponent(FadingComponent.class);
+    public static FadingComponent create(Engine engine){
+        if(engine instanceof PooledEngine) {
+            return ((PooledEngine)engine).createComponent(FadingComponent.class);
+        }else{
+            return new FadingComponent();
+        }
     }
 
     public FadingComponent setPercentPerSecond(float pfps){
