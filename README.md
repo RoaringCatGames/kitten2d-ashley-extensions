@@ -4,8 +4,8 @@ A set of Ashley ECS components and systems that are generic, and useful for 2D g
 
 ## Features
 
-- Provides the basic Components needed for all Systems
-- Included Components are going to be useful for many of your game-specific systems as well
+- Provides the basic Components needed for all included Systems
+- Included Components are going to be useful for many of your game-specific Systems as well
 - Supports GWT, just include the ```-sources``` jar in your html project and add the node below to your ```GdxDefinition.gwt.xml``` and ```GdxDefinitionSuperdev.gwt.xml``` files
 
 ```xml
