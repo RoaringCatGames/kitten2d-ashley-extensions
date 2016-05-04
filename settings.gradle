@@ -1,2 +1,2 @@
-include 'ashley-extensions'
+include 'ashley-extensions', 'example'
 

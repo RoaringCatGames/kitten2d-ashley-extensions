@@ -22,6 +22,7 @@ allprojects {
         appName = "ashley-gdx-extensions"
         gdxVersion = '1.9.2'
         ashleyVersion = '1.7.2'
+        tweenEngineVersion = '6.3.3'
         jUnitVersion = "4.12"
     }
 
@@ -29,6 +30,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -37,11 +39,18 @@ project(":ashley-extensions") {
 
 
     dependencies {
+        compile "com.github.arcnor:universal-tween-engine:$tweenEngineVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         testCompile "junit:junit:$jUnitVersion"
     }
+}
 
-
+project(":example"){
+    dependencies {
+        compile project(":ashley-extensions")
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
 }
