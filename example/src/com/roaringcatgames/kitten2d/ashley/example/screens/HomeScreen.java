@@ -21,7 +21,6 @@ public class HomeScreen extends BaseDemoScreen{
     @Override
     protected void childInit() {
         engine.addSystem(new RotationSystem());
-        engine.addSystem(renderer);
 
         Entity cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)

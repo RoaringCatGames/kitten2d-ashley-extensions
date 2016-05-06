@@ -1,5 +1,6 @@
 package com.roaringcatgames.kitten2d.ashley.components;
 
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class TweenComponent implements Component, Pool.Poolable {
     public Array<Tween> tweens = new Array<>();
+    public Timeline timeline;
 
     public static TweenComponent create(Engine engine){
         if(engine instanceof PooledEngine){
@@ -26,11 +28,20 @@ public class TweenComponent implements Component, Pool.Poolable {
         return this;
     }
 
+    public TweenComponent setTimeline(Timeline t){
+        this.timeline = t;
+        return this;
+    }
+
     @Override
     public void reset() {
         for(Tween t:tweens){
             t.free();
         }
         tweens.clear();
+        if(timeline != null){
+            timeline.free();
+        }
+        timeline = null;
     }
 }
