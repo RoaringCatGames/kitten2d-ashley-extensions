@@ -18,14 +18,12 @@ import com.roaringcatgames.kitten2d.ashley.systems.RotationSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.TweenSystem;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 
-import java.sql.Time;
-//import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
-
 /**
- * Created by barry on 5/3/16 @ 6:52 PM.
+ * Initial Demo Screen
  */
 public class HomeScreen extends BaseDemoScreen{
 
+    float tweenTime = 0.5f;
     private TextureRegion asteroidTexture;
     public HomeScreen(IGameProcessor game){
         super(game);
@@ -39,46 +37,68 @@ public class HomeScreen extends BaseDemoScreen{
 
         Entity cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)
-            .setPosition(renderer.getCamera().position.x, renderer.getCamera().position.y)
-            .setRotation(15f)
-            .setTint(Color.WHITE));
+                .setPosition(renderer.getCamera().position.x, renderer.getCamera().position.y)
+                .setRotation(15f)
+                .setTint(Color.WHITE));
         cat.add(TextureComponent.create(engine)
                 .setRegion(catTexture));
         cat.add(RotationComponent.create(engine)
                 .setRotationSpeed(50f));
 
-        Timeline tl = Timeline.createSequence()
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                            .target(Color.GREEN.r, Color.GREEN.g, Color.GREEN.b))
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                            .target(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b))
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 2f)
-                            .target(Color.BLUE.r, Color.BLUE.g, Color.BLUE.b)
-                            .ease(TweenEquations.easeInOutSine))
 
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                                    .target(Color.PINK.r, Color.PINK.g, Color.PINK.b)
-                    )
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                                    .target(Color.PURPLE.r, Color.PURPLE.g, Color.PURPLE.b)
-                    )
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                                    .target(Color.ORANGE.r, Color.ORANGE.g, Color.ORANGE.b)
-                    )
-                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, 4f)
-                                    .target(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b)
-                    )
+        Timeline tl = Timeline.createSequence()
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.RED.r, Color.RED.g, Color.RED.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.PINK.r, Color.PINK.g, Color.PINK.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.GREEN.r, Color.GREEN.g, Color.GREEN.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.ORANGE.r, Color.ORANGE.g, Color.ORANGE.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.PURPLE.r, Color.PURPLE.g, Color.PURPLE.b)
+                            .ease(TweenEquations.easeInOutSine))
+                    .push(Tween.to(cat, K2EntityTweenAccessor.COLOR, tweenTime)
+                            .target(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b)
+                            .ease(TweenEquations.easeInOutSine))
                     .repeat(Tween.INFINITY, 0f);
-       // cat.add(TweenComponent.create(engine).setTimeline(tl));
+        cat.add(TweenComponent.create(engine).setTimeline(tl));
         engine.addEntity(cat);
 
+        addAsteroid(5f, 15f, new Color(0x7f509FFF), new Color[] {Color.RED, Color.PURPLE, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.CYAN });
+        addAsteroid(15f, 15f, new Color(0x58B9DFFF), new Color[] {Color.BLUE, Color.ORANGE, Color.RED, Color.PURPLE, Color.CYAN, Color.YELLOW });
+        addAsteroid(5f, 5f, new Color(0xE5AEA3FF), new Color[] {Color.GREEN, Color.BLUE, Color.CYAN, Color.YELLOW, Color.PURPLE, Color.ORANGE});
+        addAsteroid(15f, 5f, Color.WHITE, new Color[]{});
+
+    }
+
+
+    private void addAsteroid(float x, float y, Color color, Color[] raveColors){
         Entity asteroid = engine.createEntity();
         asteroid.add(TransformComponent.create(engine)
-            .setPosition(10f, 10f, 0f)
-            .setTint(Color.PINK)
-            .setScale(3f, 3f));
+                .setPosition(x, y, 0f)
+                .setTint(color)
+                .setScale(0.5f, 0.5f));
+        Timeline tl = Timeline.createSequence();
+        for(Color c:raveColors){
+            tl.push(Tween.to(asteroid, K2EntityTweenAccessor.COLOR, tweenTime)
+                .target(c.r, c.g, c.b));
+            tl.push(Tween.to(asteroid, K2EntityTweenAccessor.COLOR, tweenTime)
+                .target(color.r, color.g, color.b));
+        }
+        tl.repeat(Tween.INFINITY, 1f);
+
+        asteroid.add(TweenComponent.create(engine)
+            .setTimeline(tl));
         asteroid.add(TextureComponent.create(engine)
-            .setRegion(asteroidTexture));
+                .setRegion(asteroidTexture));
         engine.addEntity(asteroid);
     }
 

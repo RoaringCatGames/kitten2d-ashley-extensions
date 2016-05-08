@@ -2,12 +2,18 @@ package com.roaringcatgames.kitten2d.ashley;
 
 import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 import com.roaringcatgames.kitten2d.ashley.components.VelocityComponent;
 
 /**
- * Created by barry on 5/3/16 @ 8:12 PM.
+ * Default TweenAccessor Implementation for Kitten2d Entities.
+ * Provides Tween implementations for:
+ *  Position,
+ *  Scale,
+ *  Rotation,
+ *  Opacity,
+ *  Velocity,
+ *  Color
  */
 public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
     public static final int POSITION = 1;
@@ -63,7 +69,7 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
             case COLOR:
                 if(K2ComponentMappers.tm.has(entity)){
                     TransformComponent tm = K2ComponentMappers.tm.get(entity);
-                    returnValues[0] = tm.tint.a;
+                    returnValues[0] = tm.tint.r;
                     returnValues[1] = tm.tint.g;
                     returnValues[2] = tm.tint.b;
                     result = 3;
@@ -113,9 +119,9 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                 if(K2ComponentMappers.tm.has(entity)){
                     TransformComponent tm = K2ComponentMappers.tm.get(entity);
                     tm.tint.set(newValues[0],
-                                newValues[1],
-                                newValues[2],
-                                tm.tint.a);
+                            newValues[1],
+                            newValues[2],
+                            tm.tint.a);
                 }
                 break;
             default:
