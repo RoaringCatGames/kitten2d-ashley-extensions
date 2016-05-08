@@ -15,6 +15,7 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
     public static final int ROTATION = 3;
     public static final int OPACITY = 4;
     public static final int VELOCITY = 5;
+    public static final int COLOR = 6;
 
     @Override
     public int getValues(Entity entity, int tweenType, float[] returnValues) {
@@ -47,7 +48,7 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
             case OPACITY:
                 if(K2ComponentMappers.tm.has(entity)){
                     TransformComponent tc = K2ComponentMappers.tm.get(entity);
-                    returnValues[0] = tc.opacity;
+                    returnValues[0] = tc.tint.a;
                     result = 1;
                 }
                 break;
@@ -57,6 +58,15 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                     returnValues[0] = vc.speed.x;
                     returnValues[1] = vc.speed.y;
                     result = 2;
+                }
+                break;
+            case COLOR:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tm = K2ComponentMappers.tm.get(entity);
+                    returnValues[0] = tm.tint.a;
+                    returnValues[1] = tm.tint.g;
+                    returnValues[2] = tm.tint.b;
+                    result = 3;
                 }
                 break;
             default:
@@ -89,13 +99,23 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
             case OPACITY:
                 if(K2ComponentMappers.tm.has(entity)){
                     TransformComponent tc = K2ComponentMappers.tm.get(entity);
-                    tc.opacity = newValues[0];
+                    tc.tint.a = newValues[0];
                 }
                 break;
             case VELOCITY:
                 if(K2ComponentMappers.vm.has(entity)){
                     VelocityComponent vc = K2ComponentMappers.vm.get(entity);
                     vc.speed.set(newValues[0], newValues[1]);
+                }
+                break;
+
+            case COLOR:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tm = K2ComponentMappers.tm.get(entity);
+                    tm.tint.set(newValues[0],
+                                newValues[1],
+                                newValues[2],
+                                tm.tint.a);
                 }
                 break;
             default:

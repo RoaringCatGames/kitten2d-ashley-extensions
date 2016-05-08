@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -32,6 +33,8 @@ public class RenderingSystem extends IteratingSystem {
 
     private ComponentMapper<TextureComponent> textureM;
     private ComponentMapper<TransformComponent> transformM;
+
+    private Color tintPlaceholder = Color.WHITE.cpy();
 
     public RenderingSystem(SpriteBatch batch, float pixelsPerMeter) {
         super(Family.all(TransformComponent.class, TextureComponent.class).get());//, new ZComparator());
@@ -79,8 +82,8 @@ public class RenderingSystem extends IteratingSystem {
 
 
             Color c = batch.getColor();
-            Color newColor = new Color(c.r, c.g, c.b, t.opacity);
-            batch.setColor(newColor);
+            tintPlaceholder.set(t.tint.r, t.tint.g, t.tint.b, t.tint.a);
+            batch.setColor(tintPlaceholder);
             float width = tex.region.getRegionWidth();
             float height = tex.region.getRegionHeight();
 

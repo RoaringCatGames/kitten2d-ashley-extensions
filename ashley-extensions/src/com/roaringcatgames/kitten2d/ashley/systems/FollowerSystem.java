@@ -80,7 +80,7 @@ public class FollowerSystem extends IteratingSystem {
                         tc.position.set(targetPos.position.x + offset.x,
                                 targetPos.position.y + offset.y,
                                 tc.position.z);
-                        tc.setOpacity(targetPos.opacity);
+                        tc.setOpacity(targetPos.tint.a);
                         tc.setRotation(fc.baseRotation + targetPos.rotation);
                         break;
                     case MOVETO:

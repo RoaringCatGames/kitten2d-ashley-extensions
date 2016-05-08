@@ -8,7 +8,7 @@ import com.badlogic.gdx.ScreenAdapter;
 /**
  * Lazy initialized Screens will wait until they are shown
  * before calling their init(). If not initialized, init() is
- * immediately called when {@link this.show} is called.
+ * immediately called when {this.show} is called.
  */
 public abstract class LazyInitScreen extends ScreenAdapter {
 
@@ -20,7 +20,7 @@ public abstract class LazyInitScreen extends ScreenAdapter {
     protected abstract void init();
 
     /**
-     * Perform any updates here which will fire each {@link this.render}
+     * Perform any updates here which will fire each {this.render}
      * call.
      * @param deltaChange the time in seconds since the last update call
      */
