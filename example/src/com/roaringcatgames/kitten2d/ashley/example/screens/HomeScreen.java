@@ -33,7 +33,7 @@ public class HomeScreen extends BaseDemoScreen{
 
     @Override
     protected void childInit() {
-        asteroidTexture = new TextureRegion(new Texture(Gdx.files.internal("assets/asteroid-b.png")));
+        asteroidTexture = new TextureRegion(new Texture(Gdx.files.internal("assets/gray-asteroid.png")));
         engine.addSystem(new RotationSystem());
         engine.addSystem(new TweenSystem());
 
@@ -69,13 +69,14 @@ public class HomeScreen extends BaseDemoScreen{
                                     .target(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b)
                     )
                     .repeat(Tween.INFINITY, 0f);
-        cat.add(TweenComponent.create(engine).setTimeline(tl));
+       // cat.add(TweenComponent.create(engine).setTimeline(tl));
         engine.addEntity(cat);
 
         Entity asteroid = engine.createEntity();
         asteroid.add(TransformComponent.create(engine)
             .setPosition(10f, 10f, 0f)
-            .setTint(Color.ORANGE));
+            .setTint(Color.PINK)
+            .setScale(3f, 3f));
         asteroid.add(TextureComponent.create(engine)
             .setRegion(asteroidTexture));
         engine.addEntity(asteroid);
