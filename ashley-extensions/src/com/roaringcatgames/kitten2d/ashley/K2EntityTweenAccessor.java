@@ -17,11 +17,15 @@ import com.roaringcatgames.kitten2d.ashley.components.VelocityComponent;
  */
 public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
     public static final int POSITION = 1;
-    public static final int SCALE = 2;
-    public static final int ROTATION = 3;
-    public static final int OPACITY = 4;
-    public static final int VELOCITY = 5;
-    public static final int COLOR = 6;
+    public static final int POSITION_X = 2;
+    public static final int POSITION_Y = 3;
+    public static final int POSITION_Z = 4;
+    public static final int POSITION_XY = 5;
+    public static final int SCALE = 6;
+    public static final int ROTATION = 7;
+    public static final int OPACITY = 8;
+    public static final int VELOCITY = 9;
+    public static final int COLOR = 10;
 
     @Override
     public int getValues(Entity entity, int tweenType, float[] returnValues) {
@@ -34,6 +38,35 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                     returnValues[1] = tc.position.y;
                     returnValues[2] = tc.position.z;
                     result = 3;
+                }
+                break;
+            case POSITION_X:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    returnValues[0] = tc.position.x;
+                    result = 1;
+                }
+                break;
+            case POSITION_Y:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    returnValues[0] = tc.position.y;
+                    result = 1;
+                }
+                break;
+            case POSITION_Z:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    returnValues[0] = tc.position.z;
+                    result = 1;
+                }
+                break;
+            case POSITION_XY:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    returnValues[0] = tc.position.x;
+                    returnValues[1] = tc.position.y;
+                    result = 2;
                 }
                 break;
             case SCALE:
@@ -88,6 +121,30 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                 if(K2ComponentMappers.tm.has(entity)){
                     TransformComponent tc = K2ComponentMappers.tm.get(entity);
                     tc.position.set(newValues[0], newValues[1], newValues[2]);
+                }
+                break;
+            case POSITION_X:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    tc.position.set(newValues[0], tc.position.y, tc.position.z);
+                }
+                break;
+            case POSITION_Y:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    tc.position.set(tc.position.x, newValues[0], tc.position.z);
+                }
+                break;
+            case POSITION_Z:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    tc.position.set(tc.position.x, tc.position.y, newValues[0]);
+                }
+                break;
+            case POSITION_XY:
+                if(K2ComponentMappers.tm.has(entity)){
+                    TransformComponent tc = K2ComponentMappers.tm.get(entity);
+                    tc.position.set(newValues[0], newValues[1], tc.position.z);
                 }
                 break;
             case SCALE:

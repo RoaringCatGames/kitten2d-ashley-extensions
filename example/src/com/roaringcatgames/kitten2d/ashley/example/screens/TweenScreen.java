@@ -32,7 +32,7 @@ public class TweenScreen extends BaseDemoScreen {
         Entity cat = engine.createEntity();
         Tween tweenPos = Tween.to(cat, K2EntityTweenAccessor.POSITION, 3)
                             .ease(TweenEquations.easeInOutSine)
-                            .target(1f, 2f, 0f)
+                            .target(1f, 2f, 100f)
                             .repeatYoyo(Tween.INFINITY, 0f);
         Tween tweenScale = Tween.to(cat, K2EntityTweenAccessor.SCALE, 2)
                             .ease(TweenEquations.easeInOutElastic)
@@ -49,7 +49,7 @@ public class TweenScreen extends BaseDemoScreen {
         cat.add(TransformComponent.create(engine)
                 .setPosition(renderer.getCamera().position.x,
                              renderer.getCamera().position.y,
-                             10f)
+                             100f)
                 .setOpacity(1f)
                 .setRotation(15f));
         cat.add(TextureComponent.create(engine)
@@ -65,8 +65,8 @@ public class TweenScreen extends BaseDemoScreen {
         Entity veloCat = engine.createEntity();
         Timeline tl = Timeline.createSequence()
                               .push(Tween.to(veloCat, K2EntityTweenAccessor.VELOCITY, 1f)
-                                         .ease(TweenEquations.easeInSine)
-                                         .target(-5f, 0f))
+                                      .ease(TweenEquations.easeInSine)
+                                      .target(-5f, 0f))
                               .push(Tween.to(veloCat, K2EntityTweenAccessor.VELOCITY, 1f)
                                       .ease(TweenEquations.easeOutSine)
                                       .target(5f, 0f))
@@ -78,13 +78,74 @@ public class TweenScreen extends BaseDemoScreen {
                 .setOpacity(1f)
                 .setRotation(15f));
         veloCat.add(VelocityComponent.create(engine)
-            .setSpeed(0f, 0f));
+                .setSpeed(0f, 0f));
         veloCat.add(TextureComponent.create(engine)
                 .setRegion(catTexture));
         veloCat.add(TweenComponent.create(engine)
                 .setTimeline(tl));
         engine.addEntity(veloCat);
 
+
+        Entity catStill = engine.createEntity();
+        catStill.add(TextureComponent.create(engine).setRegion(catTexture));
+        catStill.add(TransformComponent.create(engine)
+                .setPosition(3.5f, 9f, 50f)
+                .setScale(0.10f, 0.10f));
+        engine.addEntity(catStill);
+
+        //POSITION_X Tween Example
+        Entity catX = engine.createEntity();
+        catX.add(TextureComponent.create(engine).setRegion(catTexture));
+        catX.add(TransformComponent.create(engine)
+                .setTint(255f, 0f, 0f, 1f)
+                .setPosition(3f, 9f, 50f)
+                .setScale(0.10f, 0.10f));
+        catX.add(VelocityComponent.create(engine).setSpeed(0f, 0.5f));
+        catX.add(TweenComponent.create(engine)
+                .addTween(Tween.to(catX, K2EntityTweenAccessor.POSITION_X, 1f)
+                        .target(5f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(catX);
+
+        //POSITION_Y
+        Entity catY = engine.createEntity();
+        catY.add(TextureComponent.create(engine).setRegion(catTexture));
+        catY.add(TransformComponent.create(engine)
+                .setTint(0f, 255f, 0f, 1f)
+                .setPosition(3f, 9f, 50f)
+                .setScale(0.10f, 0.10f));
+        catY.add(VelocityComponent.create(engine).setSpeed(0.5f, 0f));
+        catY.add(TweenComponent.create(engine)
+                .addTween(Tween.to(catY, K2EntityTweenAccessor.POSITION_Y, 1f)
+                        .target(12f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(catY);
+
+        //POSITION_Z
+        Entity catZ = engine.createEntity();
+        catZ.add(TextureComponent.create(engine).setRegion(catTexture));
+        catZ.add(TransformComponent.create(engine)
+                .setTint(0f, 0f, 255f, 1f)
+                .setPosition(3f, 9f, 100f)
+                .setScale(0.10f, 0.10f));
+        catZ.add(TweenComponent.create(engine)
+                .addTween(Tween.to(catZ, K2EntityTweenAccessor.POSITION_Z, 1f)
+                        .target(49f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(catZ);
+
+        //POSITION_XY
+        Entity catXY = engine.createEntity();
+        catXY.add(TextureComponent.create(engine).setRegion(catTexture));
+        catXY.add(TransformComponent.create(engine)
+                .setTint(255f, 0f, 255f, 1f)
+                .setPosition(3f, 9f, 100f)
+                .setScale(0.10f, 0.10f));
+        catXY.add(TweenComponent.create(engine)
+                .addTween(Tween.to(catXY, K2EntityTweenAccessor.POSITION_XY, 1f)
+                        .target(1f, 4f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(catXY);
 
     }
 }
