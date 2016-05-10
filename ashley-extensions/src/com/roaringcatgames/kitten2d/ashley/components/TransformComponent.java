@@ -17,6 +17,7 @@ public class TransformComponent implements Component, Pool.Poolable {
     public Color tint = Color.WHITE.cpy();
     public float rotation = 0.0f;
     public boolean isHidden = false;
+    public Vector2 originOffset = new Vector2(0f, 0f);
     //public float opacity = 1f;
 
     public static TransformComponent create(Engine engine){
@@ -63,6 +64,11 @@ public class TransformComponent implements Component, Pool.Poolable {
         return this;
     }
 
+    public TransformComponent setOriginOffset(float x, float y){
+        this.originOffset.set(x, y);
+        return this;
+    }
+
     public TransformComponent hide(){
         this.isHidden = false;
         return this;
@@ -85,5 +91,6 @@ public class TransformComponent implements Component, Pool.Poolable {
         this.rotation = 0f;
         this.isHidden = false;
         this.tint.set(255f, 255f, 255f, 1f);
+        this.originOffset.set(0f, 0f);
     }
 }

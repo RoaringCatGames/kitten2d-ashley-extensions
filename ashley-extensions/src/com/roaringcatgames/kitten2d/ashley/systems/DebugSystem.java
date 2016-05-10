@@ -111,14 +111,15 @@ public class DebugSystem extends IteratingSystem {
             for(Entity rect:rectangles){
                 shapeRenderer.setColor(boundsColor);
                 BoundsComponent bounds = bm.get(rect);
+                TransformComponent tc = tm.get(rect);
                 shapeRenderer.rect(bounds.bounds.x, bounds.bounds.y, bounds.bounds.width, bounds.bounds.height);
                 shapeRenderer.setColor(originColor);
                 float boundsCenterX = bounds.bounds.x + (bounds.bounds.width / 2f);
                 float boundsCenterY = bounds.bounds.y + (bounds.bounds.height / 2f);
-                shapeRenderer.circle(boundsCenterX, boundsCenterY, 0.2f);
+                shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
+                                     boundsCenterY + tc.originOffset.y, 0.2f);
                 if(bounds.offset.x != 0f || bounds.offset.y != 0f) {
                     Vector2 offset = bounds.offset;
-                    TransformComponent tc = tm.get(rect);
                     if(tc != null) {
                         offset = VectorUtils.rotateVector(offset, tc.rotation);
                     }
@@ -130,15 +131,17 @@ public class DebugSystem extends IteratingSystem {
             for(Entity circle:circles){
                 shapeRenderer.setColor(boundsColor);
                 CircleBoundsComponent bounds = cm.get(circle);
+                TransformComponent tc = tm.get(circle);
                 shapeRenderer.circle(bounds.circle.x, bounds.circle.y, bounds.circle.radius);
                 shapeRenderer.circle(bounds.circle.x, bounds.circle.y, 0.2f);
-                shapeRenderer.setColor(originColor);
+
                 float boundsCenterX = bounds.circle.x;
                 float boundsCenterY = bounds.circle.y;
-                shapeRenderer.circle(boundsCenterX, boundsCenterY, 0.2f);
+                shapeRenderer.setColor(originColor);
+                shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
+                                     boundsCenterY + tc.originOffset.y, 0.2f);
                 if(bounds.offset.x != 0f || bounds.offset.y != 0f) {
                     Vector2 offset = bounds.offset;
-                    TransformComponent tc = tm.get(circle);
                     if(tc != null) {
                         offset = VectorUtils.rotateVector(offset, tc.rotation);
                     }
@@ -167,7 +170,8 @@ public class DebugSystem extends IteratingSystem {
                         boundsCenterY = bound.rect.y + (bound.rect.height / 2f);
                     }
                     shapeRenderer.setColor(originColor);
-                    shapeRenderer.circle(boundsCenterX, boundsCenterY, 0.2f);
+                    shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
+                                         boundsCenterY + tc.originOffset.y, 0.2f);
                     if(bound.offset.x != 0f || bound.offset.y != 0f) {
                         Vector2 offset = bound.offset;
                         if(tc != null) {

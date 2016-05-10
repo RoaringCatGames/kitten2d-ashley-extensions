@@ -84,17 +84,19 @@ public class RenderingSystem extends IteratingSystem {
             Color c = batch.getColor();
             tintPlaceholder.set(t.tint.r, t.tint.g, t.tint.b, t.tint.a);
             batch.setColor(tintPlaceholder);
-            float width = tex.region.getRegionWidth();
-            float height = tex.region.getRegionHeight();
-
-            float originX = width/2f;
-            float originY = height/2f;
+            float width = PixelsToMeters(tex.region.getRegionWidth());
+            float height = PixelsToMeters(tex.region.getRegionHeight());
+            float halfWidth = width/2f;
+            float halfHeight = height/2f;
+            //Allow for Offset
+            float originX = halfWidth + t.originOffset.x;
+            float originY = halfHeight + t.originOffset.y;
 
             batch.draw(tex.region,
-                    t.position.x - originX, t.position.y - originY,
+                    t.position.x - halfWidth, t.position.y - halfHeight,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
+                    t.scale.x, t.scale.y,
                     t.rotation);
             batch.setColor(c);
         }
@@ -116,5 +118,9 @@ public class RenderingSystem extends IteratingSystem {
 
     private float PixelsToMeters(float pixelValue){
         return pixelValue * (1.0f/PPM);
+    }
+
+    private float MetersToPixels(float meterValue){
+        return  PPM * meterValue;
     }
 }

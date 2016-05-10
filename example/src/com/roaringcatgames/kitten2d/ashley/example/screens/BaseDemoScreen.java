@@ -2,10 +2,13 @@ package com.roaringcatgames.kitten2d.ashley.example.screens;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.roaringcatgames.kitten2d.ashley.example.DemoGame;
+import com.roaringcatgames.kitten2d.ashley.systems.DebugSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 import com.roaringcatgames.kitten2d.gdx.screens.LazyInitScreen;
@@ -43,6 +46,7 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
         baseInit();
         childInit();
         engine.addSystem(renderer);
+        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.BLUE, Color.YELLOW, Input.Keys.TAB));
     }
 
     @Override
@@ -65,6 +69,17 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.NUM_1){
+            this.game.switchScreens("HOME");
+        }
+
+        if(keycode == Input.Keys.NUM_2){
+            this.game.switchScreens("LEVEL_1");
+        }
+
+        if(keycode == Input.Keys.NUM_3){
+            this.game.switchScreens("LEVEL_2");
+        }
         return false;
     }
 

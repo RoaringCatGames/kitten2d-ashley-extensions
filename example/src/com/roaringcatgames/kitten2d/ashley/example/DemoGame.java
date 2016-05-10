@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.roaringcatgames.kitten2d.ashley.example.screens.HomeScreen;
+import com.roaringcatgames.kitten2d.ashley.example.screens.OriginScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.TweenScreen;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 
@@ -29,6 +30,7 @@ public class DemoGame extends Game implements IGameProcessor{
 
     private HomeScreen home;
     private TweenScreen tween;
+    private OriginScreen origin;
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -38,6 +40,7 @@ public class DemoGame extends Game implements IGameProcessor{
 
         home = new HomeScreen(this);
         tween = new TweenScreen(this);
+        origin = new OriginScreen(this);
         setScreen(home);
         Gdx.input.setInputProcessor(multiplexer);
     }
@@ -72,10 +75,12 @@ public class DemoGame extends Game implements IGameProcessor{
 
     @Override
     public void switchScreens(String screenName) {
-        if("LEVEL_1".equals(screenName)){
-            setScreen(tween);
-        }else{
+        if("HOME".equals(screenName)){
             setScreen(home);
+        }else if("LEVEL_1".equals(screenName)){
+            setScreen(tween);
+        }else if("LEVEL_2".equals(screenName)) {
+            setScreen(origin);
         }
     }
 
