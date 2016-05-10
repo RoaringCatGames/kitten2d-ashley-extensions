@@ -3,13 +3,11 @@ package com.roaringcatgames.kitten2d.ashley.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -20,6 +18,8 @@ import com.roaringcatgames.kitten2d.ashley.components.*;
  * Created by barry on 12/13/15 @ 2:22 PM.
  */
 public class DebugSystem extends IteratingSystem {
+
+    private static final float ORIGIN_PIXEL_RADIUS = 5f;
 
     private int[] debugKeys;
     private OrthographicCamera cam;
@@ -42,6 +42,7 @@ public class DebugSystem extends IteratingSystem {
     ComponentMapper<PathFollowComponent> pm;
 
     private boolean isDebugMode = false;
+    private float originRadius;
 
 
     public DebugSystem(OrthographicCamera camera, Color boundsColor, Color originColor, int...debugKeys){
@@ -73,6 +74,9 @@ public class DebugSystem extends IteratingSystem {
         this.cam = camera;
         this.boundsColor = boundsColor;
         this.originColor = originColor;
+
+        originRadius = ORIGIN_PIXEL_RADIUS * (this.cam.viewportWidth/Gdx.graphics.getWidth());
+        Gdx.app.log("DebugSystem", "Origin Radius Initialized As: " + originRadius);
 
         shapeRenderer = new ShapeRenderer();
         rectangles = new Array<>();
@@ -113,11 +117,19 @@ public class DebugSystem extends IteratingSystem {
                 BoundsComponent bounds = bm.get(rect);
                 TransformComponent tc = tm.get(rect);
                 shapeRenderer.rect(bounds.bounds.x, bounds.bounds.y, bounds.bounds.width, bounds.bounds.height);
-                shapeRenderer.setColor(originColor);
+                ;
                 float boundsCenterX = bounds.bounds.x + (bounds.bounds.width / 2f);
                 float boundsCenterY = bounds.bounds.y + (bounds.bounds.height / 2f);
-                shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
-                                     boundsCenterY + tc.originOffset.y, 0.2f);
+                shapeRenderer.circle(boundsCenterX, boundsCenterY, originRadius);
+
+                float originX = boundsCenterX;
+                float originY = boundsCenterY;
+                if(tc != null){
+                    originX += tc.originOffset.x;
+                    originY += tc.originOffset.y;
+                }
+                shapeRenderer.setColor(originColor);
+                shapeRenderer.circle(originX, originY, originRadius);
                 if(bounds.offset.x != 0f || bounds.offset.y != 0f) {
                     Vector2 offset = bounds.offset;
                     if(tc != null) {
@@ -137,9 +149,16 @@ public class DebugSystem extends IteratingSystem {
 
                 float boundsCenterX = bounds.circle.x;
                 float boundsCenterY = bounds.circle.y;
+                shapeRenderer.circle(boundsCenterX, boundsCenterY, originRadius);
+
+                float originX = boundsCenterX;
+                float originY = boundsCenterY;
+                if(tc != null){
+                    originX += tc.originOffset.x;
+                    originY += tc.originOffset.y;
+                }
                 shapeRenderer.setColor(originColor);
-                shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
-                                     boundsCenterY + tc.originOffset.y, 0.2f);
+                shapeRenderer.circle(originX, originY, originRadius);
                 if(bounds.offset.x != 0f || bounds.offset.y != 0f) {
                     Vector2 offset = bounds.offset;
                     if(tc != null) {
@@ -169,9 +188,16 @@ public class DebugSystem extends IteratingSystem {
                         boundsCenterX = bound.rect.x + (bound.rect.width / 2f);
                         boundsCenterY = bound.rect.y + (bound.rect.height / 2f);
                     }
+                    shapeRenderer.circle(boundsCenterX, boundsCenterY, originRadius);
+                    float originX = boundsCenterX;
+                    float originY = boundsCenterY;
+                    if(tc != null){
+                        originX += tc.originOffset.x;
+                        originY += tc.originOffset.y;
+                    }
                     shapeRenderer.setColor(originColor);
-                    shapeRenderer.circle(boundsCenterX + tc.originOffset.x,
-                                         boundsCenterY + tc.originOffset.y, 0.2f);
+                    shapeRenderer.circle(originX, originY, originRadius);
+
                     if(bound.offset.x != 0f || bound.offset.y != 0f) {
                         Vector2 offset = bound.offset;
                         if(tc != null) {
