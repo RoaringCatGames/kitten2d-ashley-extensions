@@ -76,7 +76,6 @@ public class DebugSystem extends IteratingSystem {
         this.originColor = originColor;
 
         originRadius = ORIGIN_PIXEL_RADIUS * (this.cam.viewportWidth/Gdx.graphics.getWidth());
-        Gdx.app.log("DebugSystem", "Origin Radius Initialized As: " + originRadius);
 
         shapeRenderer = new ShapeRenderer();
         rectangles = new Array<>();
