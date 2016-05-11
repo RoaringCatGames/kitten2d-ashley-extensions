@@ -19,8 +19,21 @@ import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
  */
 public class TweenScreen extends BaseDemoScreen {
 
+    private Entity removeTest;
+
+    private float elapsedTime = 0f;
+
     public TweenScreen(IGameProcessor game) {
         super(game);
+    }
+
+    @Override
+    protected void update(float deltaChange) {
+        elapsedTime += deltaChange;
+        if(elapsedTime >= 3f){
+            engine.removeEntity(removeTest);
+        }
+        super.update(deltaChange);
     }
 
     @Override
@@ -146,6 +159,18 @@ public class TweenScreen extends BaseDemoScreen {
                         .target(1f, 4f)
                         .repeatYoyo(Tween.INFINITY, 0)));
         engine.addEntity(catXY);
+
+        removeTest = engine.createEntity();
+        removeTest.add(TextureComponent.create(engine).setRegion(catTexture));
+        removeTest.add(TransformComponent.create(engine)
+                .setTint(50f, 255f, 50f, 0.5f)
+                .setPosition(3f, 9f, 100f)
+                .setScale(0.10f, 0.10f));
+        removeTest.add(TweenComponent.create(engine)
+                .addTween(Tween.to(removeTest, K2EntityTweenAccessor.POSITION_XY, 5f)
+                        .target(1f, 4f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(removeTest);
 
     }
 }
