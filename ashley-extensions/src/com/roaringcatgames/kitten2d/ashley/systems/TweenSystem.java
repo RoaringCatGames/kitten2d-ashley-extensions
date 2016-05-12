@@ -39,6 +39,7 @@ public class TweenSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
         tweenManager.update(deltaTime);
+
     }
 
     Array<Tween> removableTweens = new Array<>();

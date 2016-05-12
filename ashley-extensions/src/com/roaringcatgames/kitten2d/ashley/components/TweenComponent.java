@@ -36,13 +36,14 @@ public class TweenComponent implements Component, Pool.Poolable {
     @Override
     public void reset() {
         for(Tween t:tweens){
+            t.pause();
             t.kill();
-            t.free();
+
         }
         tweens.clear();
         if(timeline != null){
+            timeline.pause();
             timeline.kill();
-            timeline.free();
         }
         timeline = null;
     }
