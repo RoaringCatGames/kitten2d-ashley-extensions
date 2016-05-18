@@ -20,10 +20,13 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
     public float duration = 1f;
     public Vector2 particleMinMaxSpeeds = new Vector2(1f, 1f);
     public Vector2 particleMinMaxLifespans = new Vector2(1f, 1f);
+    public Vector2 particleSpawnRange = new Vector2(0f, 0f);
+    public Vector2 particleMinMaxScale = new Vector2(1f, 1f);
     public Range angleRange = new Range(-45f, 45f);
     public boolean shouldFade = false;
     public boolean isLooping = false;
     public float zIndex = 100f;
+    public ParticleSpawnType spawnType = ParticleSpawnType.FROM_CENTER;
 
     public static ParticleEmitterComponent create(Engine engine) {
 
@@ -34,6 +37,11 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
         }
     }
 
+    public ParticleEmitterComponent setParticleImage(TextureRegion region){
+        this.particleImages.clear();
+        this.particleImages.add(region);
+        return this;
+    }
     public ParticleEmitterComponent setParticleImages(Array<? extends TextureRegion> particleImages) {
         this.particleImages.clear();
         this.particleImages.addAll(particleImages);
@@ -71,8 +79,23 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
         return this;
     }
 
+    public ParticleEmitterComponent setSpawnType(ParticleSpawnType spawnType){
+        this.spawnType = spawnType;
+        return this;
+    }
+
+    public ParticleEmitterComponent setSpawnRange(float xOffset, float yOffset){
+        this.particleSpawnRange.set(xOffset, yOffset);
+        return this;
+    }
+
     public ParticleEmitterComponent setSpeed(float min, float max) {
         this.particleMinMaxSpeeds.set(min, max);
+        return this;
+    }
+
+    public ParticleEmitterComponent setParticleMinMaxScale(float min, float max){
+        this.particleMinMaxScale.set(min, max);
         return this;
     }
 
@@ -90,10 +113,14 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
         this.duration = 1f;
         this.particleMinMaxSpeeds.set(1f, 1f);
         this.particleMinMaxLifespans.set(1f, 1f);
+        this.particleSpawnRange.set(0f, 0f);
+        this.particleMinMaxScale.set(1f, 1f);
         this.angleRange.setMin(-45f);
         this.angleRange.setMax(45f);
         this.shouldFade = false;
         this.isLooping = false;
         this.zIndex = 100f;
+        this.spawnType = ParticleSpawnType.FROM_CENTER;
+
     }
 }

@@ -73,9 +73,20 @@ public class ParticleSystem extends IteratingSystem {
         PooledEngine engine = (PooledEngine)getEngine();
         Entity particle = engine.createEntity();
 
+        float x = tc.position.x;
+        float y = tc.position.y;
+        float scale = K2MathUtil.getRandomInRange(pc.particleMinMaxScale.x, pc.particleMinMaxScale.y);
+        if(pc.spawnType == ParticleSpawnType.RANDOM_IN_BOUNDS){
+            x += K2MathUtil.getRandomInRange(-pc.particleSpawnRange.x, pc.particleSpawnRange.x);
+            y += K2MathUtil.getRandomInRange(-pc.particleSpawnRange.y, pc.particleSpawnRange.y);
+        }
+
+
         particle.add(TransformComponent.create(engine)
-                .setPosition(tc.position.x, tc.position.y, pc.zIndex)
-                .setScale(0.5f, 0.5f));
+                .setPosition(x, y, pc.zIndex)
+                .setScale(scale, scale));
+
+
 
         float lifeSpan = K2MathUtil.getRandomInRange(pc.particleMinMaxLifespans.x, pc.particleMinMaxLifespans.y); //(r.nextFloat() * (pc.particleMinMaxLifespans.y - pc.particleMinMaxLifespans.x)) + pc.particleMinMaxLifespans.x;
         particle.add(ParticleComponent.create(engine)
@@ -93,7 +104,7 @@ public class ParticleSystem extends IteratingSystem {
 
         if(pc.shouldFade) {
             particle.add(FadingComponent.create(engine)
-                    .setPercentPerSecond(100f/lifeSpan));
+                    .setPercentPerSecond(100f / lifeSpan));
         }
 
         getEngine().addEntity(particle);

@@ -9,12 +9,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
-import com.roaringcatgames.kitten2d.ashley.components.RotationComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TextureComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TweenComponent;
-import com.roaringcatgames.kitten2d.ashley.systems.RotationSystem;
-import com.roaringcatgames.kitten2d.ashley.systems.TweenSystem;
+import com.roaringcatgames.kitten2d.ashley.components.*;
+import com.roaringcatgames.kitten2d.ashley.systems.*;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 
 /**
@@ -33,6 +29,9 @@ public class HomeScreen extends BaseDemoScreen{
         asteroidTexture = new TextureRegion(new Texture(Gdx.files.internal("assets/gray-asteroid.png")));
         engine.addSystem(new RotationSystem());
         engine.addSystem(new TweenSystem());
+        engine.addSystem(new ParticleSystem());
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new FadingSystem());
 
         Entity cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)
@@ -43,6 +42,18 @@ public class HomeScreen extends BaseDemoScreen{
                 .setRegion(catTexture));
         cat.add(RotationComponent.create(engine)
                 .setRotationSpeed(50f));
+        cat.add(ParticleEmitterComponent.create(engine)
+                .setParticleImage(catTexture)
+                .setParticleMinMaxScale(0.02f, 0.3f)
+                .setSpawnType(ParticleSpawnType.RANDOM_IN_BOUNDS)
+                .setSpawnRate(50f)
+                .setZIndex(0f)
+                .setParticleLifespans(0.5f, 1f)
+                .setShouldFade(true)
+                .setShouldLoop(true)
+                .setAngleRange(-90f, 90f)
+                .setSpawnRange(1f, 1f)
+                .setSpeed(5f, 10f));
 
 
         Timeline tl = Timeline.createSequence()
