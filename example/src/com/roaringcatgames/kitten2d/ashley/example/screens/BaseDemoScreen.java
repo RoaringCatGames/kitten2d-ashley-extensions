@@ -46,7 +46,7 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
         baseInit();
         childInit();
         engine.addSystem(renderer);
-        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.GREEN, Color.MAGENTA, Input.Keys.TAB));
+        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.BLUE, Color.MAGENTA, Input.Keys.TAB));
     }
 
     @Override

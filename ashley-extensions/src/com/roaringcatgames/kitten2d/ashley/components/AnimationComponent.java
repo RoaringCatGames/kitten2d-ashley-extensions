@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Pool;
 public class AnimationComponent implements Component, Pool.Poolable {
     public ArrayMap<String, Animation> animations = new ArrayMap<String, Animation>();
     public boolean isPaused = false;
+    public boolean shouldClearOnBlankState = false;
 
     public static AnimationComponent create(Engine engine){
         if(engine instanceof PooledEngine){
@@ -21,12 +22,19 @@ public class AnimationComponent implements Component, Pool.Poolable {
             return new AnimationComponent();
         }
     }
+
     public AnimationComponent addAnimation(String stateName, Animation animation){
         this.animations.put(stateName, animation);
         return this;
     }
+
     public AnimationComponent setPaused(boolean isPaused){
         this.isPaused = isPaused;
+        return this;
+    }
+
+    public AnimationComponent setShouldClearOnBlankState(boolean shouldClear){
+        this.shouldClearOnBlankState = shouldClear;
         return this;
     }
 
@@ -34,5 +42,6 @@ public class AnimationComponent implements Component, Pool.Poolable {
     public void reset() {
         this.animations.clear();
         this.isPaused = false;
+        this.shouldClearOnBlankState = false;
     }
 }

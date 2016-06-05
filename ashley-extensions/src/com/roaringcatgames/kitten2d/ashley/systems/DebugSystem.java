@@ -110,7 +110,6 @@ public class DebugSystem extends IteratingSystem {
             shapeRenderer.setProjectionMatrix(cam.combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-
             for(Entity rect:rectangles){
                 shapeRenderer.setColor(boundsColor);
                 BoundsComponent bounds = bm.get(rect);

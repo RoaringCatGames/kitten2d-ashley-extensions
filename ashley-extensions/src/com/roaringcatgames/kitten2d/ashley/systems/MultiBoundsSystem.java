@@ -38,11 +38,13 @@ public class MultiBoundsSystem extends IteratingSystem {
                 rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
             }
             if(bound.isCircle){
-                bound.circle.x = tfm.position.x + rotatedOffset.x;
-                bound.circle.y = tfm.position.y + rotatedOffset.y;
+                bound.circle.x = tfm.position.x + tfm.originOffset.x + rotatedOffset.x;
+                bound.circle.y = tfm.position.y + tfm.originOffset.y + rotatedOffset.y;
             }else{
-                bound.rect.x = tfm.position.x - bound.rect.width * 0.5f + rotatedOffset.x;
-                bound.rect.y = tfm.position.y - bound.rect.height * 0.5f + rotatedOffset.y;
+                bound.rect.x = tfm.position.x - (bound.rect.width * 0.5f) +
+                               tfm.originOffset.x + rotatedOffset.x;
+                bound.rect.y = tfm.position.y - (bound.rect.height * 0.5f) +
+                               tfm.originOffset.y + rotatedOffset.y;
             }
         }
     }

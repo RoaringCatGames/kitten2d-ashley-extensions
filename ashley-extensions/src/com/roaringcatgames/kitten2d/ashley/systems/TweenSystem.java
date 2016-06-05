@@ -8,7 +8,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
@@ -45,7 +44,7 @@ public class TweenSystem extends IteratingSystem {
     Array<Tween> removableTweens = new Array<>();
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        TweenComponent tc = K2ComponentMappers.twm.get(entity);
+        TweenComponent tc = K2ComponentMappers.tween.get(entity);
 
         if(tc.timeline != null && !tc.timeline.isStarted()){
             tc.timeline.start(tweenManager);

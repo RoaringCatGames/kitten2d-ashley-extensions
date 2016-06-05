@@ -13,7 +13,7 @@ import com.roaringcatgames.kitten2d.ashley.components.*;
 import java.util.Random;
 
 /**
- * Created by barry on 3/13/16 @ 3:25 PM.
+ * System to spawn and clean-up particles
  */
 public class ParticleSystem extends IteratingSystem {
 
@@ -44,6 +44,10 @@ public class ParticleSystem extends IteratingSystem {
 
         }else if(pem.has(entity)) {
             ParticleEmitterComponent pc = pem.get(entity);
+            if(pc.isPaused){
+                return;
+            }
+
             TransformComponent tc = tm.get(entity);
 
             float secsBetweenSpawns = 1f / pc.spawnRate;

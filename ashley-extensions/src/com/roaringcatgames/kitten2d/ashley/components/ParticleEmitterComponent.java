@@ -25,6 +25,7 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
     public Range angleRange = new Range(-45f, 45f);
     public boolean shouldFade = false;
     public boolean isLooping = false;
+    public boolean isPaused = false;
     public float zIndex = 100f;
     public ParticleSpawnType spawnType = ParticleSpawnType.FROM_CENTER;
 
@@ -101,6 +102,11 @@ public class ParticleEmitterComponent implements Component, Pool.Poolable {
 
     public ParticleEmitterComponent setZIndex(float index) {
         this.zIndex = index;
+        return this;
+    }
+
+    public ParticleEmitterComponent setPaused(boolean isPaused){
+        this.isPaused = isPaused;
         return this;
     }
 

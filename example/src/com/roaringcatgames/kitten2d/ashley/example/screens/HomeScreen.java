@@ -5,9 +5,12 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
 import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.kitten2d.ashley.systems.*;
@@ -20,6 +23,7 @@ public class HomeScreen extends BaseDemoScreen{
 
     float tweenTime = 0.5f;
     private TextureRegion asteroidTexture;
+    private Entity cat;
     public HomeScreen(IGameProcessor game){
         super(game);
     }
@@ -33,7 +37,7 @@ public class HomeScreen extends BaseDemoScreen{
         engine.addSystem(new MovementSystem());
         engine.addSystem(new FadingSystem());
 
-        Entity cat = engine.createEntity();
+        cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)
                 .setPosition(renderer.getCamera().position.x, renderer.getCamera().position.y)
                 .setRotation(15f)
@@ -110,5 +114,14 @@ public class HomeScreen extends BaseDemoScreen{
         asteroid.add(TextureComponent.create(engine)
                 .setRegion(asteroidTexture));
         engine.addEntity(asteroid);
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.SPACE){
+            ParticleEmitterComponent pec = K2ComponentMappers.particleEmitter.get(cat);
+            pec.setPaused(!pec.isPaused);
+        }
+        return super.keyDown(keycode);
     }
 }

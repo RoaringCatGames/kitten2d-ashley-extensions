@@ -43,8 +43,8 @@ public class BoundsSystem extends IteratingSystem {
                 rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
             }
 
-            bounds.bounds.x = tfm.position.x - bounds.bounds.width * 0.5f + rotatedOffset.x;
-            bounds.bounds.y = tfm.position.y - bounds.bounds.height * 0.5f + rotatedOffset.y;
+            bounds.bounds.x = tfm.position.x + tfm.originOffset.x - bounds.bounds.width * 0.5f + rotatedOffset.x;
+            bounds.bounds.y = tfm.position.y + tfm.originOffset.y - bounds.bounds.height * 0.5f + rotatedOffset.y;
         }else if(cm.has(entity)){
             CircleBoundsComponent bounds = cm.get(entity);
             Vector2 rotatedOffset = bounds.offset.cpy().scl(xOffsetAdjust, yOffsetAdjust);
@@ -52,8 +52,8 @@ public class BoundsSystem extends IteratingSystem {
                 rotatedOffset = VectorUtils.rotateVector(rotatedOffset, tfm.rotation);
             }
 
-            bounds.circle.x = tfm.position.x + rotatedOffset.x;
-            bounds.circle.y = tfm.position.y + rotatedOffset.y;
+            bounds.circle.x = tfm.position.x + tfm.originOffset.x + rotatedOffset.x;
+            bounds.circle.y = tfm.position.y + tfm.originOffset.y + rotatedOffset.y;
         }
     }
 }
