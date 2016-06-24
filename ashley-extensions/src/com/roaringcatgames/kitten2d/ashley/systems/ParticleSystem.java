@@ -50,19 +50,24 @@ public class ParticleSystem extends IteratingSystem {
 
             TransformComponent tc = tm.get(entity);
 
+            for (int i = 0; i < pc.spawnRate; i++) {
+                spawnParticle(pc, tc);
+            }
+
+
             float secsBetweenSpawns = 1f / pc.spawnRate;
             pc.elapsedTime += deltaTime;
 
-            float timeThisSpawnBlock = pc.elapsedTime - pc.lastSpawnTime;
-            if (timeThisSpawnBlock >= secsBetweenSpawns) {
-                int numberToSpawnThisInterval = (int) Math.ceil(pc.spawnRate * timeThisSpawnBlock);
-
-                for (int i = 0; i < numberToSpawnThisInterval; i++) {
-                    spawnParticle(pc, tc);
-                }
-
-                pc.lastSpawnTime = pc.elapsedTime;
-            }
+//            float timeThisSpawnBlock = pc.elapsedTime - pc.lastSpawnTime;
+//            if (timeThisSpawnBlock >= secsBetweenSpawns) {
+//                int numberToSpawnThisInterval = (int) Math.ceil(pc.spawnRate * timeThisSpawnBlock);
+//
+//                for (int i = 0; i < numberToSpawnThisInterval; i++) {
+//                    spawnParticle(pc, tc);
+//                }
+//
+//                pc.lastSpawnTime = pc.elapsedTime;
+//            }
 
             //Once it is done, remove
             if (!pc.isLooping && pc.elapsedTime >= pc.duration) {

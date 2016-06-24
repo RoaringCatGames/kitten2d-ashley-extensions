@@ -3,6 +3,7 @@ package com.roaringcatgames.kitten2d.gdx.helpers;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 /**
@@ -19,4 +20,5 @@ public interface IGameProcessor {
     void removeInputProcessor(InputProcessor processor);
 
     OrthographicCamera getGUICam();
+    Viewport getViewport();
 }
