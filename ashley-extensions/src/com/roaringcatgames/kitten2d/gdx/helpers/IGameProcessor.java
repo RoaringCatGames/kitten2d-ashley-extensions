@@ -19,6 +19,7 @@ public interface IGameProcessor {
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
 
-    OrthographicCamera getGUICam();
+    OrthographicCamera getCamera();
+    OrthographicCamera getGUICamera();
     Viewport getViewport();
 }

@@ -38,7 +38,7 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
 
         engine = new PooledEngine();
 
-        renderer = new RenderingSystem(game.getBatch(), DemoGame.PPM);
+        renderer = new RenderingSystem(game.getBatch(), game.getCamera(), DemoGame.PPM);
 
     }
     @Override
@@ -46,7 +46,7 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
         baseInit();
         childInit();
         engine.addSystem(renderer);
-        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.BLUE, Color.MAGENTA, Input.Keys.TAB));
+        engine.addSystem(new DebugSystem(game.getCamera(), Color.BLUE, Color.MAGENTA, Input.Keys.TAB));
     }
 
     @Override

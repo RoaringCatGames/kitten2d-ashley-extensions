@@ -39,7 +39,7 @@ public class HomeScreen extends BaseDemoScreen{
 
         cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)
-                .setPosition(renderer.getCamera().position.x, renderer.getCamera().position.y)
+                .setPosition(game.getCamera().position.x, game.getCamera().position.y)
                 .setRotation(15f)
                 .setTint(Color.WHITE));
         cat.add(TextureComponent.create(engine)

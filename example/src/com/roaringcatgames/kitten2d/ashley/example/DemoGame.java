@@ -9,6 +9,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.roaringcatgames.kitten2d.ashley.example.screens.HomeScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.OriginScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.TweenScreen;
@@ -26,6 +28,7 @@ public class DemoGame extends Game implements IGameProcessor{
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private OrthographicCamera guiCam;
+    private Viewport viewport;
 
     private HomeScreen home;
     private TweenScreen tween;
@@ -35,6 +38,11 @@ public class DemoGame extends Game implements IGameProcessor{
         batch = new SpriteBatch();
         //TODO: Camera System
         cam = new OrthographicCamera(VIEWPORT_SIZE, VIEWPORT_SIZE);
+        viewport = new FitViewport(VIEWPORT_SIZE, VIEWPORT_SIZE, cam);
+        viewport.apply();
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.position.set(cam.viewportWidth/2f, cam.viewportHeight/2f, 0);
+
         guiCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         home = new HomeScreen(this);
@@ -55,6 +63,13 @@ public class DemoGame extends Game implements IGameProcessor{
         super.render();
     }
 
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        if(viewport != null) {
+            this.viewport.update(width, height);
+        }
+    }
 
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -94,7 +109,17 @@ public class DemoGame extends Game implements IGameProcessor{
     }
 
     @Override
-    public OrthographicCamera getGUICam() {
+    public OrthographicCamera getCamera() {
+        return cam;
+    }
+
+    @Override
+    public OrthographicCamera getGUICamera() {
         return guiCam;
+    }
+
+    @Override
+    public Viewport getViewport() {
+        return viewport;
     }
 }
