@@ -21,13 +21,11 @@ import java.util.Comparator;
  * This system will handle rendering all of our
  * entities with a Texture and Transform. Uses the
  * Z value of the TransformComponent.position to determine
- * rendering order HIGH -> LOW. (ex: 100 renders behind 99)
+ * rendering order HIGH to LOW. (ex: 100 renders behind 99)
  */
 public class RenderingSystem extends IteratingSystem {
 
     private final float PPM;
-//    private final float FRUSTUM_WIDTH;
-//    private final float FRUSTUM_HEIGHT;
 
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
@@ -43,8 +41,6 @@ public class RenderingSystem extends IteratingSystem {
         super(Family.all(TransformComponent.class, TextureComponent.class).get());//, new ZComparator());
         PPM = pixelsPerMeter;
 
-//        FRUSTUM_WIDTH = Gdx.graphics.getWidth()/PPM;
-//        FRUSTUM_HEIGHT = Gdx.graphics.getHeight()/PPM;
         textureM = ComponentMapper.getFor(TextureComponent.class);
         transformM = ComponentMapper.getFor(TransformComponent.class);
 
@@ -60,8 +56,7 @@ public class RenderingSystem extends IteratingSystem {
         this.batch = batch;
 
 
-        this.cam = cam;//new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-        //cam.position.set(FRUSTUM_WIDTH / 2f, FRUSTUM_HEIGHT / 2f, 0);
+        this.cam = cam;
     }
 
     @Override
