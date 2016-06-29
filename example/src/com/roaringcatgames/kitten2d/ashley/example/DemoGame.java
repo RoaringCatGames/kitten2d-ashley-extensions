@@ -15,6 +15,8 @@ import com.roaringcatgames.kitten2d.ashley.example.screens.HomeScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.OriginScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.TweenScreen;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
+import com.roaringcatgames.kitten2d.gdx.helpers.IPreferenceManager;
+import com.roaringcatgames.kitten2d.gdx.helpers.K2PreferenceManager;
 
 /**
  * Created by barry on 5/3/16 @ 6:33 PM.
@@ -29,6 +31,8 @@ public class DemoGame extends Game implements IGameProcessor{
     private OrthographicCamera cam;
     private OrthographicCamera guiCam;
     private Viewport viewport;
+
+    private IPreferenceManager prefManager = new K2PreferenceManager("kitten2d_demo_game");
 
     private HomeScreen home;
     private TweenScreen tween;
@@ -82,10 +86,7 @@ public class DemoGame extends Game implements IGameProcessor{
         new LwjglApplication(new DemoGame(), config);
     }
 
-    @Override
-    public SpriteBatch getBatch() {
-        return batch;
-    }
+
 
     @Override
     public void switchScreens(String screenName) {
@@ -109,6 +110,11 @@ public class DemoGame extends Game implements IGameProcessor{
     }
 
     @Override
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
+    @Override
     public OrthographicCamera getCamera() {
         return cam;
     }
@@ -121,5 +127,10 @@ public class DemoGame extends Game implements IGameProcessor{
     @Override
     public Viewport getViewport() {
         return viewport;
+    }
+
+    @Override
+    public IPreferenceManager getPreferenceManager() {
+        return prefManager;
     }
 }

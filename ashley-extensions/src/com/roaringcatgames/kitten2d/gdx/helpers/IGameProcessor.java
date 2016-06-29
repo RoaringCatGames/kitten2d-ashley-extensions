@@ -14,12 +14,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public interface IGameProcessor {
 
-    SpriteBatch getBatch();
     void switchScreens(String screenName);
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
 
+    SpriteBatch getBatch();
     OrthographicCamera getCamera();
     OrthographicCamera getGUICamera();
     Viewport getViewport();
+
+    IPreferenceManager getPreferenceManager();
 }

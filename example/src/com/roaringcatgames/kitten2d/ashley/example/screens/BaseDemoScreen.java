@@ -7,11 +7,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.roaringcatgames.kitten2d.ashley.example.DemoGame;
 import com.roaringcatgames.kitten2d.ashley.systems.DebugSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 import com.roaringcatgames.kitten2d.gdx.screens.LazyInitScreen;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by barry on 5/3/16 @ 7:43 PM.
@@ -80,11 +84,32 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
         if(keycode == Input.Keys.NUM_3){
             this.game.switchScreens("LEVEL_2");
         }
+
+        if(keycode == Input.Keys.SPACE){
+            Gdx.app.log("BaseDemoScreen Prefs Test", "KeyUpStr: " + this.game.getPreferenceManager().getStoredString("KeyUpStr"));
+            Gdx.app.log("BaseDemoScreen Prefs Test", "KeyUpInt: " + this.game.getPreferenceManager().getStoredString("KeyUpInt"));
+            Gdx.app.log("BaseDemoScreen Prefs Test", "KeyUpFlt: " + this.game.getPreferenceManager().getStoredString("KeyUpFlt"));
+        }
+
+        if(keycode == Input.Keys.DEL){
+            this.game.getPreferenceManager().deleteValue("KeyUpStr");
+        }
+
+        if(keycode == Input.Keys.ESCAPE){
+            this.game.getPreferenceManager().clear();
+        }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+
+        Map<String, Object> updateVals = new HashMap<>();
+        updateVals.put("KeyUpStr", Input.Keys.toString(keycode));
+        updateVals.put("KeyUpFlt", (float) keycode);
+        updateVals.put("KeyUpInt", keycode);
+        this.game.getPreferenceManager().updateValues(updateVals);
+
         return false;
     }
 
