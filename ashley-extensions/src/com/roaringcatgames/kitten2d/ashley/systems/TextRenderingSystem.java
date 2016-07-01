@@ -3,6 +3,7 @@ package com.roaringcatgames.kitten2d.ashley.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +23,7 @@ public class TextRenderingSystem extends QueuedIteratingSystem {
     private float rateW;
     private float rateH;
 
+    private Color tintPlaceholder = Color.WHITE.cpy();
     private SpriteBatch batch;
 
     public TextRenderingSystem(SpriteBatch batch, OrthographicCamera guiCam, OrthographicCamera worldCam){
@@ -48,11 +50,17 @@ public class TextRenderingSystem extends QueuedIteratingSystem {
             TransformComponent transform = tfm.get(entity);
 
             if (text.text != null && !transform.isHidden) {
+
+                batch.setColor(tintPlaceholder);
+                tintPlaceholder.set(text.font.getColor());
+                text.font.setColor(transform.tint);
+
                 GlyphLayout textData = new GlyphLayout(text.font, text.text);
                 float targetX = (transform.position.x - ((textData.width/2f)/rateW));
                 float xTranslatedPosition = guiCam.position.x-(worldCam.position.x-targetX)*rateW;//(transform.position.x - textData.width/2f);
                 float yTranslatedPosition = guiCam.position.y-(worldCam.position.y-transform.position.y)*rateH;//(transform.position.y - textData.height/2f);
                 text.font.draw(batch, text.text, xTranslatedPosition, yTranslatedPosition);
+                text.font.setColor(tintPlaceholder);
             }
         }
         batch.end();

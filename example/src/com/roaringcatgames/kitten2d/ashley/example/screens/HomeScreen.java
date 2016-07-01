@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
@@ -86,10 +87,31 @@ public class HomeScreen extends BaseDemoScreen{
         cat.add(TweenComponent.create(engine).setTimeline(tl));
         engine.addEntity(cat);
 
-        addAsteroid(5f, 15f, new Color(0x7f509FFF), new Color[] {Color.RED, Color.PURPLE, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.CYAN });
-        addAsteroid(15f, 15f, new Color(0x58B9DFFF), new Color[] {Color.BLUE, Color.ORANGE, Color.RED, Color.PURPLE, Color.CYAN, Color.YELLOW });
-        addAsteroid(5f, 5f, new Color(0xE5AEA3FF), new Color[] {Color.GREEN, Color.BLUE, Color.CYAN, Color.YELLOW, Color.PURPLE, Color.ORANGE});
+        addAsteroid(5f, 15f, new Color(0x7f509FFF), new Color[]{Color.RED, Color.PURPLE, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.CYAN});
+        addAsteroid(15f, 15f, new Color(0x58B9DFFF), new Color[]{Color.BLUE, Color.ORANGE, Color.RED, Color.PURPLE, Color.CYAN, Color.YELLOW});
+        addAsteroid(5f, 5f, new Color(0xE5AEA3FF), new Color[]{Color.GREEN, Color.BLUE, Color.CYAN, Color.YELLOW, Color.PURPLE, Color.ORANGE});
         addAsteroid(15f, 5f, Color.WHITE, new Color[]{});
+
+        BitmapFont font = new BitmapFont(Gdx.files.internal("assets/fonts/arial-32.fnt"));
+        font.setColor(Color.PURPLE);
+
+        Entity text = engine.createEntity();
+        text.add(TransformComponent.create(engine)
+            .setPosition(10f, 10f)
+            .setTint(Color.RED.r, Color.RED.g, Color.RED.b, Color.RED.a));
+        text.add(TextComponent.create(engine)
+                .setFont(font)
+                .setText("WOOOO"));
+        engine.addEntity(text);
+
+        Entity text2 = engine.createEntity();
+        text2.add(TransformComponent.create(engine)
+                .setPosition(10f, 9f)
+                .setTint(Color.PINK.r, Color.PINK.g, Color.PINK.b, Color.PINK.a));
+        text2.add(TextComponent.create(engine)
+                .setFont(font)
+                .setText("WOOOO"));
+        engine.addEntity(text2);
 
     }
 

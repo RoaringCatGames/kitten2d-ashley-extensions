@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.roaringcatgames.kitten2d.ashley.example.DemoGame;
 import com.roaringcatgames.kitten2d.ashley.systems.DebugSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
+import com.roaringcatgames.kitten2d.ashley.systems.TextRenderingSystem;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 import com.roaringcatgames.kitten2d.gdx.screens.LazyInitScreen;
 
@@ -50,6 +51,7 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
         baseInit();
         childInit();
         engine.addSystem(renderer);
+        engine.addSystem(new TextRenderingSystem(game.getBatch(), game.getGUICamera(), game.getCamera()));
         engine.addSystem(new DebugSystem(game.getCamera(), Color.BLUE, Color.MAGENTA, Input.Keys.TAB));
     }
 

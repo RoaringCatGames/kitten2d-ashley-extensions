@@ -110,6 +110,16 @@ public class DemoGame extends Game implements IGameProcessor{
     }
 
     @Override
+    public void pauseBgMusic() {
+        //NO-OP
+    }
+
+    @Override
+    public void playBgMusic(String musicName) {
+        //NO-OP
+    }
+
+    @Override
     public SpriteBatch getBatch() {
         return batch;
     }

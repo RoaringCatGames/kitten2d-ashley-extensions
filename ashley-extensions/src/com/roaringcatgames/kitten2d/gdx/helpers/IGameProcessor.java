@@ -17,6 +17,8 @@ public interface IGameProcessor {
     void switchScreens(String screenName);
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
+    void pauseBgMusic();
+    void playBgMusic(String musicName);
 
     SpriteBatch getBatch();
     OrthographicCamera getCamera();
