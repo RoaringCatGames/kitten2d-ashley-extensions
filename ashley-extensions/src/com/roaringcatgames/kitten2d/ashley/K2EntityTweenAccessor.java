@@ -2,9 +2,7 @@ package com.roaringcatgames.kitten2d.ashley;
 
 import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.ashley.core.Entity;
-import com.roaringcatgames.kitten2d.ashley.components.PathFollowComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
-import com.roaringcatgames.kitten2d.ashley.components.VelocityComponent;
+import com.roaringcatgames.kitten2d.ashley.components.*;
 
 /**
  * Default TweenAccessor Implementation for Kitten2d Entities.
@@ -28,6 +26,8 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
     public static final int VELOCITY = 9;
     public static final int COLOR = 10;
     public static final int PATH_FOLLOW_SPEED = 11;
+    public static final int BOUNDS_RADIUS = 12;
+    public static final int BOUNDS_XY = 13;
 
     @Override
     public int getValues(Entity entity, int tweenType, float[] returnValues) {
@@ -117,6 +117,21 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                     result = 1;
                 }
                 break;
+            case BOUNDS_RADIUS:
+                if(K2ComponentMappers.circleBounds.has(entity)){
+                    CircleBoundsComponent cbc = K2ComponentMappers.circleBounds.get(entity);
+                    returnValues[0] = cbc.circle.radius;
+                    result = 1;
+                }
+                break;
+            case BOUNDS_XY:
+                if(K2ComponentMappers.bounds.has(entity)){
+                    BoundsComponent bc = K2ComponentMappers.bounds.get(entity);
+                    returnValues[0] = bc.bounds.width;
+                    returnValues[1] = bc.bounds.height;
+                    result = 2;
+                }
+                break;
             default:
                 break;
         }
@@ -194,6 +209,19 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                 if(K2ComponentMappers.pathFollow.has(entity)){
                     PathFollowComponent pfc = K2ComponentMappers.pathFollow.get(entity);
                     pfc.setSpeed(newValues[0]);
+                }
+                break;
+            case BOUNDS_RADIUS:
+                if(K2ComponentMappers.circleBounds.has(entity)){
+                    CircleBoundsComponent cbc = K2ComponentMappers.circleBounds.get(entity);
+                    cbc.circle.setRadius(newValues[0]);
+                }
+                break;
+            case BOUNDS_XY:
+                if(K2ComponentMappers.bounds.has(entity)){
+                    BoundsComponent bc = K2ComponentMappers.bounds.get(entity);
+                    bc.bounds.setWidth(newValues[0]);
+                    bc.bounds.setHeight(newValues[1]);
                 }
                 break;
             default:

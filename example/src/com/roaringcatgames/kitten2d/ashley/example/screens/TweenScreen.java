@@ -4,13 +4,9 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
-import com.roaringcatgames.kitten2d.ashley.components.TextureComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TweenComponent;
-import com.roaringcatgames.kitten2d.ashley.components.VelocityComponent;
+import com.roaringcatgames.kitten2d.ashley.components.*;
+import com.roaringcatgames.kitten2d.ashley.systems.BoundsSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.MovementSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.TweenSystem;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
@@ -39,7 +35,7 @@ public class TweenScreen extends BaseDemoScreen {
     protected void childInit() {
         engine.addSystem(new TweenSystem());
         engine.addSystem(new MovementSystem());
-
+        engine.addSystem(new BoundsSystem());
 
         Entity cat = engine.createEntity();
         Tween tweenPos = Tween.to(cat, K2EntityTweenAccessor.POSITION, 3)
@@ -158,6 +154,30 @@ public class TweenScreen extends BaseDemoScreen {
                         .target(1f, 4f)
                         .repeatYoyo(Tween.INFINITY, 0)));
         engine.addEntity(catXY);
+
+        Entity circleThing = engine.createEntity();
+        circleThing.add(TransformComponent.create(engine)
+                .setPosition(3f, 9f, 100f)
+                .setScale(1f, 1f));
+        circleThing.add(CircleBoundsComponent.create(engine)
+            .setCircle(0f, 0f, 2f));
+        circleThing.add(TweenComponent.create(engine)
+            .addTween(Tween.to(circleThing, K2EntityTweenAccessor.BOUNDS_RADIUS, 2f)
+                    .target(0.5f)
+                    .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(circleThing);
+
+        Entity squareThing = engine.createEntity();
+        squareThing.add(TransformComponent.create(engine)
+                .setPosition(3f, 9f, 100f)
+                .setScale(1f, 1f));
+        squareThing.add(BoundsComponent.create(engine)
+                .setBounds(3f, 9f, 3f, 6f));
+        squareThing.add(TweenComponent.create(engine)
+                .addTween(Tween.to(squareThing, K2EntityTweenAccessor.BOUNDS_XY, 2f)
+                        .target(0.5f, 0.5f)
+                        .repeatYoyo(Tween.INFINITY, 0)));
+        engine.addEntity(squareThing);
     }
 
 
