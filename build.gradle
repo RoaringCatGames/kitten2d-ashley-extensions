@@ -22,7 +22,7 @@ allprojects {
         appName = "ashley-gdx-extensions"
         gdxVersion = '1.9.2'
         ashleyVersion = '1.7.2'
-        tweenEngineVersion = '6.3.3'
+        tweenEngineVersion = '6.3.4'
         jUnitVersion = "4.12"
     }
 
