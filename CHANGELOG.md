@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.4.0]
+
+### Changes
+
+- Adding QueuedIteratingSystem base class.
+- Adding base implmentation of a Physics System via box2d.
+
+## [0.3.0]
+
+### Changes
+
+- Changes made during this time were not properly tracked. Will go back to list them at a later time.
+
 ## [0.2.1-SNAPSHOT]
 ### BREAKING CHANGES
 - Modified the IGameProcessor to require ```getPreferenceManager``` implementation that returns and instance of the new ```IPreferenceManager``` interface.
