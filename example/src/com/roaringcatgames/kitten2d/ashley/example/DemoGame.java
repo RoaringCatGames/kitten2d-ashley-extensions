@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.roaringcatgames.kitten2d.ashley.example.screens.HomeScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.OriginScreen;
+import com.roaringcatgames.kitten2d.ashley.example.screens.PhysicsScreen;
 import com.roaringcatgames.kitten2d.ashley.example.screens.TweenScreen;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 import com.roaringcatgames.kitten2d.gdx.helpers.IPreferenceManager;
@@ -37,6 +38,8 @@ public class DemoGame extends Game implements IGameProcessor{
     private HomeScreen home;
     private TweenScreen tween;
     private OriginScreen origin;
+    private PhysicsScreen physics;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -52,6 +55,8 @@ public class DemoGame extends Game implements IGameProcessor{
         home = new HomeScreen(this);
         tween = new TweenScreen(this);
         origin = new OriginScreen(this);
+        physics = new PhysicsScreen(this);
+
         setScreen(home);
         Gdx.input.setInputProcessor(multiplexer);
     }
@@ -96,6 +101,8 @@ public class DemoGame extends Game implements IGameProcessor{
             setScreen(tween);
         }else if("LEVEL_2".equals(screenName)) {
             setScreen(origin);
+        }else if("LEVEL_3".equals(screenName)) {
+            setScreen(physics);
         }
     }
 

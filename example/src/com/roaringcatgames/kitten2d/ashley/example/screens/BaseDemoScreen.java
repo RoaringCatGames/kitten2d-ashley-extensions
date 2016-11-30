@@ -87,6 +87,10 @@ public abstract class BaseDemoScreen extends LazyInitScreen implements InputProc
             this.game.switchScreens("LEVEL_2");
         }
 
+        if(keycode == Input.Keys.NUM_4){
+            this.game.switchScreens("LEVEL_3");
+        }
+
         if(keycode == Input.Keys.SPACE){
             Gdx.app.log("BaseDemoScreen Prefs Test", "KeyUpStr: " + this.game.getPreferenceManager().getStoredString("KeyUpStr"));
             Gdx.app.log("BaseDemoScreen Prefs Test", "KeyUpInt: " + this.game.getPreferenceManager().getStoredString("KeyUpInt"));

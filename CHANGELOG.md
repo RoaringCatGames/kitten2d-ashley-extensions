@@ -6,7 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Changes
 
 - Adding QueuedIteratingSystem base class.
-- Adding base implmentation of a Physics System via box2d.
+- Adding base implementation of a Physics System via box2d.
+  - adds ```Box2DPhysicsSystem``` and ```Box2DPhysicsDebugSystem```
+  - Example usage in ```example/src/com/roaringcatgames/kitten2d/ashley/example/screens/PhsyicsScreen```
 
 ## [0.3.0]
 

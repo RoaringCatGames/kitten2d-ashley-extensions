@@ -36,4 +36,5 @@ public class K2ComponentMappers {
     public static ComponentMapper<TransformComponent> transform = ComponentMapper.getFor(TransformComponent.class);
     public static ComponentMapper<TweenComponent> tween = ComponentMapper.getFor(TweenComponent.class);
     public static ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);
+    public static ComponentMapper<BodyComponent> body = ComponentMapper.getFor(BodyComponent.class);
 }

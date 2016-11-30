@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.components.TextureComponent;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 
@@ -32,26 +34,22 @@ public class RenderingSystem extends IteratingSystem {
     private Comparator<Entity> comparator;
     private OrthographicCamera cam;
 
-    private ComponentMapper<TextureComponent> textureM;
-    private ComponentMapper<TransformComponent> transformM;
-
     private Color tintPlaceholder = Color.WHITE.cpy();
 
     public RenderingSystem(SpriteBatch batch, OrthographicCamera cam, float pixelsPerMeter) {
         super(Family.all(TransformComponent.class, TextureComponent.class).get());//, new ZComparator());
         PPM = pixelsPerMeter;
 
-        textureM = ComponentMapper.getFor(TextureComponent.class);
-        transformM = ComponentMapper.getFor(TransformComponent.class);
 
         renderQueue = new Array<>();
-        comparator = new Comparator<Entity>() {
-            @Override
-            public int compare(Entity entityA, Entity entityB) {
-                return (int) Math.signum(transformM.get(entityB).position.z -
-                        transformM.get(entityA).position.z);
-            }
-        };
+        comparator = new ZComparator();
+//        comparator = new Comparator<Entity>() {
+//            @Override
+//            public int compare(Entity entityA, Entity entityB) {
+//                return (int) Math.signum(K2ComponentMappers.transform.get(entityB).position.z -
+//                        K2ComponentMappers.transform.get(entityA).position.z);
+//            }
+//        };
 
         this.batch = batch;
 
@@ -71,8 +69,8 @@ public class RenderingSystem extends IteratingSystem {
         batch.begin();
 
         for (Entity entity : renderQueue) {
-            TextureComponent tex = textureM.get(entity);
-            TransformComponent t = transformM.get(entity);
+            TextureComponent tex = K2ComponentMappers.texture.get(entity);
+            TransformComponent t = K2ComponentMappers.transform.get(entity);
 
             if (tex.region == null || t.isHidden) {
                 continue;

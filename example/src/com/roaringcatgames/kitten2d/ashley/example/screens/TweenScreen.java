@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Color;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
 import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.kitten2d.ashley.systems.BoundsSystem;
@@ -98,7 +99,8 @@ public class TweenScreen extends BaseDemoScreen {
         catStill.add(TextureComponent.create(engine).setRegion(catTexture));
         catStill.add(TransformComponent.create(engine)
                 .setPosition(3.5f, 9f, 50f)
-                .setScale(0.10f, 0.10f));
+                .setScale(0.10f, 0.10f)
+                .setTint(Color.CORAL));
         engine.addEntity(catStill);
 
         //POSITION_X Tween Example
@@ -134,11 +136,11 @@ public class TweenScreen extends BaseDemoScreen {
         catZ.add(TextureComponent.create(engine).setRegion(catTexture));
         catZ.add(TransformComponent.create(engine)
                 .setTint(0f, 0f, 255f, 1f)
-                .setPosition(3f, 9f, 100f)
+                .setPosition(3f, 9f, 1f)
                 .setScale(0.10f, 0.10f));
         catZ.add(TweenComponent.create(engine)
-                .addTween(Tween.to(catZ, K2EntityTweenAccessor.POSITION_Z, 1f)
-                        .target(49f)
+                .addTween(Tween.to(catZ, K2EntityTweenAccessor.POSITION_Z, 2f)
+                        .target(100f)
                         .repeatYoyo(Tween.INFINITY, 0)));
         engine.addEntity(catZ);
 
