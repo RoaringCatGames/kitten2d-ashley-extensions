@@ -17,7 +17,7 @@ allprojects {
     apply plugin: "idea"
     apply plugin: "java"
 
-    version = '0.4.0'
+    version = '0.4.1'
     ext {
         appName = "ashley-gdx-extensions"
         gdxVersion = '1.9.4'
