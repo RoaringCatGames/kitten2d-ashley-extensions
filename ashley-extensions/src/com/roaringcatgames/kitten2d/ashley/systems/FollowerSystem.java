@@ -88,15 +88,20 @@ public class FollowerSystem extends IteratingSystem {
                         tc.position.set(targetPos.position.x + offset.x,
                                 targetPos.position.y + offset.y,
                                 tc.position.z);
-                        tc.setOpacity(targetPos.tint.a);
-                        tc.setRotation(fc.baseRotation + targetPos.rotation);
+                        if(fc.shouldMatchOpacity) {
+                            tc.setOpacity(targetPos.tint.a);
+                        }
+                        if(fc.shouldMatchParentRotation) {
+                            tc.setRotation(fc.baseRotation + targetPos.rotation);
+                        }
                         break;
                     case MOVETO:
                         processMoveToAdjustment(deltaTime, fc, targetPos, tc, offset);
                         break;
                     case MOVETOSTICKY:
                         processMoveToAdjustment(deltaTime, fc, targetPos, tc, offset);
-                        if(tc.position.x == targetPos.position.x && tc.position.y == targetPos.position.y){
+                        if(tc.position.x == (targetPos.position.x + offset.x) &&
+                           tc.position.y == (targetPos.position.y + offset.y)){
                             fc.setMode(FollowMode.STICKY);
                         }
                         break;
@@ -116,21 +121,26 @@ public class FollowerSystem extends IteratingSystem {
         float newX = tc.position.x + moveToAdjustment.x;
         float newY = tc.position.y + moveToAdjustment.y;
 
-        if(tc.position.x < targetPos.position.x){
-            newX = MathUtils.clamp(newX, tc.position.x, targetPos.position.x);
+        if(tc.position.x < targetPos.position.x + offset.x){
+            newX = MathUtils.clamp(newX, tc.position.x, targetPos.position.x + offset.x);
         }else{
-            newX = MathUtils.clamp(newX, targetPos.position.x, tc.position.x);
+            newX = MathUtils.clamp(newX, targetPos.position.x + offset.x, tc.position.x);
         }
 
-        if(tc.position.y < targetPos.position.y){
-            newY = MathUtils.clamp(newY, tc.position.y, targetPos.position.y);
+        if(tc.position.y < targetPos.position.y + offset.y){
+            newY = MathUtils.clamp(newY, tc.position.y, targetPos.position.y + offset.y);
         }else{
-            newY = MathUtils.clamp(newY, targetPos.position.y, tc.position.y);
+            newY = MathUtils.clamp(newY, targetPos.position.y + offset.y, tc.position.y);
         }
 
         tc.position.set(newX, newY, tc.position.z);
 
-        tc.setOpacity(targetPos.tint.a);
-        tc.setRotation(fc.baseRotation + targetPos.rotation);
+        if(fc.shouldMatchOpacity) {
+            tc.setOpacity(targetPos.tint.a);
+        }
+
+        if(fc.shouldMatchParentRotation) {
+            tc.setRotation(fc.baseRotation + targetPos.rotation);
+        }
     }
 }

@@ -16,6 +16,7 @@ public class FollowerComponent implements Component, Pool.Poolable{
     public Vector2 offset = new Vector2(0f, 0f);
     public float baseRotation = 0f;
     public boolean shouldMatchOpacity = true;
+    public boolean shouldMatchParentRotation = true;
     public FollowMode followMode = FollowMode.STICKY;
     public float followSpeed = 5f;
 
@@ -58,12 +59,18 @@ public class FollowerComponent implements Component, Pool.Poolable{
         return this;
     }
 
+    public FollowerComponent setMatchParentRotation(boolean shouldMatch){
+        this.shouldMatchParentRotation = shouldMatch;
+        return this;
+    }
+
     @Override
     public void reset() {
         this.target = null;
         this.offset.set(0f, 0f);
         this.baseRotation = 0f;
         this.shouldMatchOpacity = true;
+        this.shouldMatchParentRotation = true;
         this.followMode = FollowMode.STICKY;
         this.followSpeed = 5f;
     }
