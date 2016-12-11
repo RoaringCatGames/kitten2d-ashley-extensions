@@ -70,8 +70,20 @@ public class PhysicsScreen extends BaseDemoScreen implements InputProcessor{
             .setFollowSpeed(10f)
             .setTarget(cat));
 
+        Entity followBox2 = engine.createEntity();
+        followBox2.add(TransformComponent.create(engine)
+                .setPosition(10f, 10f, 1f));
+        followBox2.add(BoundsComponent.create(engine)
+                .setBounds(0f, 0f, 2f, 2f));
+        followBox2.add(FollowerComponent.create(engine)
+                .setOffset(-1f, -1f)
+                .setMode(FollowMode.MOVETOSTICKY)
+                .setFollowSpeed(10f)
+                .setTarget(cat));
+
         engine.addEntity(cat);
         engine.addEntity(followBox);
+        engine.addEntity(followBox2);
         engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth/2f, 1f, 5f, 1f));
         //engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth/2f, game.getCamera().viewportHeight - 1f, 5f, 1f));
         engine.addEntity(buildBasicBox(world, 1f, game.getCamera().viewportHeight/2f, 1f, 5f));

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.VectorUtils;
+import com.roaringcatgames.kitten2d.ashley.components.FollowMode;
 import com.roaringcatgames.kitten2d.ashley.components.FollowerComponent;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 
@@ -91,36 +92,45 @@ public class FollowerSystem extends IteratingSystem {
                         tc.setRotation(fc.baseRotation + targetPos.rotation);
                         break;
                     case MOVETO:
-                        moveToAdjustment.set(targetPos.position.x + offset.x, targetPos.position.y + offset.y);
-                        moveToAdjustment.sub(tc.position.x, tc.position.y)
-                                        .nor()
-                                        .scl(fc.followSpeed * deltaTime);
-
-                        float newX = tc.position.x + moveToAdjustment.x;
-                        float newY = tc.position.y + moveToAdjustment.y;
-
-                        if(tc.position.x < targetPos.position.x){
-                            newX = MathUtils.clamp(newX, tc.position.x, targetPos.position.x);
-                        }else{
-                            newX = MathUtils.clamp(newX, targetPos.position.x, tc.position.x);
+                        processMoveToAdjustment(deltaTime, fc, targetPos, tc, offset);
+                        break;
+                    case MOVETOSTICKY:
+                        processMoveToAdjustment(deltaTime, fc, targetPos, tc, offset);
+                        if(tc.position.x == targetPos.position.x && tc.position.y == targetPos.position.y){
+                            fc.setMode(FollowMode.STICKY);
                         }
-
-                        if(tc.position.y < targetPos.position.y){
-                            newY = MathUtils.clamp(newY, tc.position.y, targetPos.position.y);
-                        }else{
-                            newY = MathUtils.clamp(newY, targetPos.position.y, tc.position.y);
-                        }
-
-                        tc.position.set(newX, newY, tc.position.z);
-
-                        tc.setOpacity(targetPos.tint.a);
-                        tc.setRotation(fc.baseRotation + targetPos.rotation);
-
                         break;
                     default:
                         break;
                 }
             }
         }
+    }
+
+    private void processMoveToAdjustment(float deltaTime, FollowerComponent fc, TransformComponent targetPos, TransformComponent tc, Vector2 offset) {
+        moveToAdjustment.set(targetPos.position.x + offset.x, targetPos.position.y + offset.y);
+        moveToAdjustment.sub(tc.position.x, tc.position.y)
+                        .nor()
+                        .scl(fc.followSpeed * deltaTime);
+
+        float newX = tc.position.x + moveToAdjustment.x;
+        float newY = tc.position.y + moveToAdjustment.y;
+
+        if(tc.position.x < targetPos.position.x){
+            newX = MathUtils.clamp(newX, tc.position.x, targetPos.position.x);
+        }else{
+            newX = MathUtils.clamp(newX, targetPos.position.x, tc.position.x);
+        }
+
+        if(tc.position.y < targetPos.position.y){
+            newY = MathUtils.clamp(newY, tc.position.y, targetPos.position.y);
+        }else{
+            newY = MathUtils.clamp(newY, targetPos.position.y, tc.position.y);
+        }
+
+        tc.position.set(newX, newY, tc.position.z);
+
+        tc.setOpacity(targetPos.tint.a);
+        tc.setRotation(fc.baseRotation + targetPos.rotation);
     }
 }
