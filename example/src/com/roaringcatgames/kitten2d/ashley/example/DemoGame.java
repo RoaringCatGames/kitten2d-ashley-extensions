@@ -51,6 +51,7 @@ public class DemoGame extends Game implements IGameProcessor{
         cam.position.set(cam.viewportWidth/2f, cam.viewportHeight/2f, 0);
 
         guiCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        guiCam.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0f);
 
         home = new HomeScreen(this);
         tween = new TweenScreen(this);

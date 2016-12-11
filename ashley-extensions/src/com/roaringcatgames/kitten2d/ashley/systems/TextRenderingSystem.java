@@ -19,9 +19,8 @@ public class TextRenderingSystem extends QueuedIteratingSystem {
     private ComponentMapper<TextComponent> tm;
     private ComponentMapper<TransformComponent> tfm;
     private OrthographicCamera guiCam;
-    private OrthographicCamera worldCam;
-    private float rateW;
-    private float rateH;
+    private float pixelPerMetersW;
+    private float pixelPerMetersH;
 
     private Color tintPlaceholder = Color.WHITE.cpy();
     private SpriteBatch batch;
@@ -31,11 +30,10 @@ public class TextRenderingSystem extends QueuedIteratingSystem {
         this.tm = ComponentMapper.getFor(TextComponent.class);
         this.tfm = ComponentMapper.getFor(TransformComponent.class);
         this.guiCam = guiCam;
-        this.worldCam = worldCam;
         this.batch = batch;
 
-        rateW = guiCam.viewportWidth/worldCam.viewportWidth;
-        rateH = guiCam.viewportHeight/worldCam.viewportHeight;
+        pixelPerMetersW = guiCam.viewportWidth/worldCam.viewportWidth;
+        pixelPerMetersH = guiCam.viewportHeight/worldCam.viewportHeight;
     }
 
     @Override
@@ -56,10 +54,9 @@ public class TextRenderingSystem extends QueuedIteratingSystem {
                 text.font.setColor(transform.tint);
 
                 GlyphLayout textData = new GlyphLayout(text.font, text.text);
-                float targetX = (transform.position.x - ((textData.width/2f)/rateW));
-                float xTranslatedPosition = guiCam.position.x-(worldCam.position.x-targetX)*rateW;//(transform.position.x - textData.width/2f);
-                float yTranslatedPosition = guiCam.position.y-(worldCam.position.y-transform.position.y)*rateH;//(transform.position.y - textData.height/2f);
-                text.font.draw(batch, text.text, xTranslatedPosition, yTranslatedPosition);
+                float targetX = (transform.position.x - ((textData.width/2f)/ pixelPerMetersW))* pixelPerMetersW;
+                float targetY = (transform.position.y - ((textData.height/2f)/ pixelPerMetersH))* pixelPerMetersH;
+                text.font.draw(batch, text.text, targetX, targetY);
                 text.font.setColor(tintPlaceholder);
             }
         }
