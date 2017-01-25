@@ -1,6 +1,28 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.4.5]
+
+### Changes
+
+- Adding ```ClickableComponent``` and ```ClickableSystem```
+  - Provides a clickable event system for entities for firing and handling actions
+- Adding ```IActionResolver``` interface
+
+
+## [0.4.4]
+
+### Changes
+
+- Implements MOVETO follower mode for the ```FollowerSystem```
+- Implements MOVETOSTICKY follower mode for the ```FollowerSystem```
+- Allow followers to ignore rotation of target
+
+### Fixes
+
+- Render text to guiCam from World units
+  - using proper world to pixel and back translations for ```TextRenderingSystem```.
+
 ## [0.4.0]
 
 ### Changes

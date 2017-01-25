@@ -3,14 +3,15 @@ package com.roaringcatgames.kitten2d.ashley.example.screens;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.roaringcatgames.kitten2d.ashley.IActionResolver;
 import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.K2EntityTweenAccessor;
 import com.roaringcatgames.kitten2d.ashley.components.*;
@@ -37,6 +38,21 @@ public class HomeScreen extends BaseDemoScreen{
         engine.addSystem(new ParticleSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new FadingSystem());
+        engine.addSystem(new ClickableSystem(game, new IActionResolver() {
+            @Override
+            public void resolveAction(String eventName, Entity firingEntity, Engine containerEngine) {
+                switch(eventName){
+                    case ClickableComponent.UNSET_EVENT_NAME:
+                         //Do nothing;
+                        break;
+                    case "ASTEROID":
+                        TransformComponent tc = K2ComponentMappers.transform.get(firingEntity);
+                        ClickableComponent cc = K2ComponentMappers.clickable.get(firingEntity);
+                        Gdx.app.log("HOME SCREEN", "ASTEROID EVENT FIRED! Count: " + cc.clickCount + " Current Color: " + tc.tint.toString());
+                        break;
+                }
+            }
+        }));
 
         cat = engine.createEntity();
         cat.add(TransformComponent.create(engine)
@@ -122,6 +138,10 @@ public class HomeScreen extends BaseDemoScreen{
                 .setPosition(x, y, 0f)
                 .setTint(color)
                 .setScale(0.5f, 0.5f));
+        asteroid.add(ClickableComponent.create(engine)
+            .setEventName("ASTEROID"));
+        asteroid.add(CircleBoundsComponent.create(engine)
+            .setCircle(x, y, 2f));
         Timeline tl = Timeline.createSequence();
         for(Color c:raveColors){
             tl.push(Tween.to(asteroid, K2EntityTweenAccessor.COLOR, tweenTime)
