@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.6]
+
+### Changes
+
+- Make ```ClickableSystem``` Sorted by the TransformComponent's Z index.
+- Add ```getStoredBoolean``` to the ```IPreferenceManager```
+
 ## [0.4.5]
 
 ### Changes

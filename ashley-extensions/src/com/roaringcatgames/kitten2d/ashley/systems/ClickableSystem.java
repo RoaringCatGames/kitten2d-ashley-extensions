@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -12,12 +13,15 @@ import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
 import com.roaringcatgames.kitten2d.ashley.components.CircleBoundsComponent;
 import com.roaringcatgames.kitten2d.ashley.components.ClickableComponent;
+import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
+
+import java.util.Comparator;
 
 /**
  * System to handle Click Events and Dispatch them to the EventResolver
  */
-public class ClickableSystem extends IteratingSystem implements InputProcessor {
+public class ClickableSystem extends SortedIteratingSystem implements InputProcessor {
 
     private IGameProcessor game;
     private IActionResolver eventResolver;
@@ -25,7 +29,16 @@ public class ClickableSystem extends IteratingSystem implements InputProcessor {
     private Vector2 touchPoint = new Vector2();
 
     public ClickableSystem(IGameProcessor game, IActionResolver eventResolver){
-        super(Family.all(ClickableComponent.class).one(BoundsComponent.class, CircleBoundsComponent.class).get());
+        super(Family.all(ClickableComponent.class).one(BoundsComponent.class, CircleBoundsComponent.class).get(),
+                new Comparator<Entity>() {
+                    @Override
+                    public int compare(Entity o1, Entity o2) {
+                        TransformComponent tc1 = K2ComponentMappers.transform.get(o1);
+                        TransformComponent tc2 = K2ComponentMappers.transform.get(o2);
+
+                        return Float.compare(tc1.position.z, tc2.position.z);
+                    }
+                });
         this.game = game;
         this.eventResolver = eventResolver;
         this.clickables = new Array<Entity>();

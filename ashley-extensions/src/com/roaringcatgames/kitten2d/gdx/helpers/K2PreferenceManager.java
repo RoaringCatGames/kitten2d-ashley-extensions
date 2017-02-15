@@ -51,6 +51,16 @@ public class K2PreferenceManager implements IPreferenceManager {
     }
 
     @Override
+    public boolean getStoredBoolean(String key, boolean... defaultValue) {
+        Preferences preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
+        boolean value = (defaultValue != null && defaultValue.length == 1) && defaultValue[0];
+        if(preferences.contains(key)){
+            value = preferences.getBoolean(key);
+        }
+        return value;
+    }
+
+    @Override
     public void updateFloat(String key, float value) {
         Preferences preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
         preferences.putFloat(key, value);
@@ -68,6 +78,13 @@ public class K2PreferenceManager implements IPreferenceManager {
     public void updateString(String key, String value) {
         Preferences preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
         preferences.putString(key, value);
+        preferences.flush();
+    }
+
+    @Override
+    public void updateBoolean(String key, boolean value) {
+        Preferences preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
+        preferences.putBoolean(key, value);
         preferences.flush();
     }
 
