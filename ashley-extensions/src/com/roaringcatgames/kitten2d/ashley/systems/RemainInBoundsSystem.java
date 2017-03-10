@@ -53,7 +53,7 @@ public class RemainInBoundsSystem extends IteratingSystem {
             switch(rc.mode){
                 case CONTAINED:
                     if(!bm.has(e)){
-                        Gdx.app.log("RemainInBoundsSystem", "CONTAINED entity does not have Bounds cannot calculate");
+                        Gdx.app.error("RemainInBoundsSystem", "CONTAINED entity does not have Bounds cannot calculate");
                         break;
                     }
                     if(bc.bounds.x < left){
@@ -86,7 +86,7 @@ public class RemainInBoundsSystem extends IteratingSystem {
 
                 case EDGE:
                     if(!bm.has(e)){
-                        Gdx.app.log("RemainInBoundsSystem", "EDGE entity does not have Bounds cannot calculate");
+                        Gdx.app.error("RemainInBoundsSystem", "EDGE entity does not have Bounds cannot calculate");
                         break;
                     }
 

@@ -34,6 +34,12 @@ public class PathFollowSystem extends IteratingSystem {
                 pc.setPaused(true);
             }
             pc.setPathPosition(newPosition);
+
+            if(pc.shouldRemoveWhenComplete && pc.pathPosition >= 1f){
+                getEngine().removeEntity(entity);
+                return;
+            }
+
             pc.path.valueAt(pc.point, pc.pathPosition);
 
             TransformComponent tc = tm.get(entity);

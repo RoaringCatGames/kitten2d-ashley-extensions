@@ -61,7 +61,6 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                 if(K2ComponentMappers.transform.has(entity)){
                     TransformComponent tc = K2ComponentMappers.transform.get(entity);
                     returnValues[0] = tc.position.z;
-                    Gdx.app.log("TweenAccessor", "Z: " + returnValues[0]);
                     result = 1;
                 }
                 break;
@@ -163,7 +162,6 @@ public class K2EntityTweenAccessor implements TweenAccessor<Entity> {
                 break;
             case POSITION_Z:
                 if(K2ComponentMappers.transform.has(entity)){
-                    Gdx.app.log("TweenAccessor", "New Z: " + newValues[0]);
                     TransformComponent tc = K2ComponentMappers.transform.get(entity);
                     tc.position.set(tc.position.x, tc.position.y, newValues[0]);
                 }

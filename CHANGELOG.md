@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.7-SNAPSHOT]
+
+### Fixes
+
+- Removes log output from tween accessors.
+- Adds ```shouldRemoveWhenComplete``` to the PathFollowerComponent and removes them when complete in the ```PathFollowerSystem```
+
 ## [0.5.6]
 
 ### Changes
