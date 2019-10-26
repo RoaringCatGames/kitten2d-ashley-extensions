@@ -1,30 +1,39 @@
 buildscript {
+
+    ext {
+        appVersion = "0.6.0"
+        appName = "ashley-gdx-extensions"
+        ashleyVersion = '1.7.4'
+        regExodusVersion = '0.1.10'
+        robovmVersion = '2.3.6'
+        gwtFrameworkVersion = '2.8.2'
+        gwtPluginVersion = '1.0.9'
+        androidPluginVersion = '3.4.1'
+        gdxVersion = '1.9.10'
+        tweenEngineVersion = '6.3.4'
+        jUnitVersion = '4.12'
+    }
+
+
     repositories {
+        mavenLocal()
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        google()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         jcenter()
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
+        classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
+        classpath "com.android.tools.build:gradle:$androidPluginVersion"
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-    apply plugin: "java"
+    apply plugin: "java-library"
 
-    version = '0.4.0'
-    ext {
-        appName = "ashley-gdx-extensions"
-        gdxVersion = '1.9.4'
-        ashleyVersion = '1.7.3'
-        tweenEngineVersion = '6.3.4'
-        jUnitVersion = "4.12"
-    }
 
     repositories {
         mavenCentral()
@@ -35,23 +44,28 @@ allprojects {
 }
 
 project(":ashley-extensions") {
-    apply from : '../publish.gradle'
+    apply from: '../publish.gradle'
 
 
     dependencies {
-        compile "com.github.arcnor:universal-tween-engine:$tweenEngineVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        testCompile "junit:junit:$jUnitVersion"
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.github.arcnor:universal-tween-engine:$tweenEngineVersion"
+        api "com.github.arcnor:universal-tween-engine:$tweenEngineVersion:sources"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
+        api "com.github.mgsx-dev:ashley:fix~gwt-generic-SNAPSHOT"
+
+        testImplementation "junit:junit:$jUnitVersion"
     }
 }
 
-project(":example"){
+project(":example") {
     dependencies {
-        compile project(":ashley-extensions")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        implementation project(":ashley-extensions")
+        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     }
 }
