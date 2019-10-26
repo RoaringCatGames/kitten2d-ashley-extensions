@@ -9,6 +9,42 @@ All notable changes to this project will be documented in this file.
 
 - 
 
+## [0.5.7-SNAPSHOT]
+
+### Fixes
+
+- Removes log output from tween accessors.
+- Adds ```shouldRemoveWhenComplete``` to the PathFollowerComponent and removes them when complete in the ```PathFollowerSystem```
+
+## [0.5.6]
+
+### Changes
+
+- Make ```ClickableSystem``` Sorted by the TransformComponent's Z index.
+- Add ```getStoredBoolean``` to the ```IPreferenceManager```
+
+## [0.4.5]
+
+### Changes
+
+- Adding ```ClickableComponent``` and ```ClickableSystem```
+  - Provides a clickable event system for entities for firing and handling actions
+- Adding ```IActionResolver``` interface
+
+
+## [0.4.4]
+
+### Changes
+
+- Implements MOVETO follower mode for the ```FollowerSystem```
+- Implements MOVETOSTICKY follower mode for the ```FollowerSystem```
+- Allow followers to ignore rotation of target
+
+### Fixes
+
+- Render text to guiCam from World units
+  - using proper world to pixel and back translations for ```TextRenderingSystem```.
+
 ## [0.4.0]
 
 ### Changes

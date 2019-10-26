@@ -2,6 +2,7 @@ package com.roaringcatgames.kitten2d.ashley;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.roaringcatgames.kitten2d.ashley.components.*;
+import com.roaringcatgames.kitten2d.ashley.systems.ClickableSystem;
 
 /**
  * Provides static mapper instances so that we can
@@ -37,4 +38,5 @@ public class K2ComponentMappers {
     public static ComponentMapper<TweenComponent> tween = ComponentMapper.getFor(TweenComponent.class);
     public static ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);
     public static ComponentMapper<BodyComponent> body = ComponentMapper.getFor(BodyComponent.class);
+    public static ComponentMapper<ClickableComponent> clickable = ComponentMapper.getFor(ClickableComponent.class);
 }

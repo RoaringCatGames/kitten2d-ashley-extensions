@@ -12,5 +12,10 @@ public enum FollowMode {
     /***
      * The follower will move toward the target's position, plus the offest, at a given Velocity.
      */
-    MOVETO
+    MOVETO,
+    /***
+     * The follower will move toward the target's position, plus the offset, at a given speed, but
+     * will stick to the target position once it's reached for the first time.
+     */
+    MOVETOSTICKY
 }

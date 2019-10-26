@@ -8,14 +8,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
 /**
- * Created by barry on 4/26/16 @ 7:32 PM.
+ * The follower component describes the properties of an entity that can
+ * be used to identify how it might follow another entity.
  */
 public class FollowerComponent implements Component, Pool.Poolable{
     public Entity target = null;
     public Vector2 offset = new Vector2(0f, 0f);
     public float baseRotation = 0f;
     public boolean shouldMatchOpacity = true;
+    public boolean shouldMatchParentRotation = true;
     public FollowMode followMode = FollowMode.STICKY;
+    public float followSpeed = 5f;
 
     public static FollowerComponent create(Engine engine){
         if(engine instanceof PooledEngine){
@@ -51,12 +54,24 @@ public class FollowerComponent implements Component, Pool.Poolable{
         return this;
     }
 
+    public FollowerComponent setFollowSpeed(float speed){
+        this.followSpeed = speed;
+        return this;
+    }
+
+    public FollowerComponent setMatchParentRotation(boolean shouldMatch){
+        this.shouldMatchParentRotation = shouldMatch;
+        return this;
+    }
+
     @Override
     public void reset() {
         this.target = null;
         this.offset.set(0f, 0f);
         this.baseRotation = 0f;
         this.shouldMatchOpacity = true;
+        this.shouldMatchParentRotation = true;
         this.followMode = FollowMode.STICKY;
+        this.followSpeed = 5f;
     }
 }

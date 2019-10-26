@@ -17,6 +17,7 @@ public class PathFollowComponent  implements Component, Pool.Poolable {
     public boolean isFacingPath = false;
     public float baseRotation = 0f;
     public boolean isPaused = false;
+    public boolean shouldRemoveWhenComplete = false;
 
     /**
      * Path Lifecycles Per Second
@@ -68,6 +69,11 @@ public class PathFollowComponent  implements Component, Pool.Poolable {
         return this;
     }
 
+    public PathFollowComponent setShouldRemoveWhenComplete(boolean shouldRemove){
+        this.shouldRemoveWhenComplete = shouldRemove;
+        return this;
+    }
+
     @Override
     public void reset() {
         this.path = null;
@@ -76,5 +82,6 @@ public class PathFollowComponent  implements Component, Pool.Poolable {
         this.pathPosition = 0f;
         this.isFacingPath = false;
         this.baseRotation = 0f;
+        this.shouldRemoveWhenComplete = false;
     }
 }

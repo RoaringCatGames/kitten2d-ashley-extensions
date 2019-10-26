@@ -1,6 +1,7 @@
 package com.roaringcatgames.kitten2d.ashley.example.screens;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -12,9 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.K2ComponentMappers;
 import com.roaringcatgames.kitten2d.ashley.components.*;
-import com.roaringcatgames.kitten2d.ashley.systems.AnimationSystem;
-import com.roaringcatgames.kitten2d.ashley.systems.Box2DPhysicsDebugSystem;
-import com.roaringcatgames.kitten2d.ashley.systems.Box2DPhysicsSystem;
+import com.roaringcatgames.kitten2d.ashley.systems.*;
 import com.roaringcatgames.kitten2d.gdx.helpers.IGameProcessor;
 
 /**
@@ -50,15 +49,51 @@ public class PhysicsScreen extends BaseDemoScreen implements InputProcessor{
         Box2DPhysicsSystem physicsSystem = new Box2DPhysicsSystem(world);
         AnimationSystem aniSystem = new AnimationSystem();
         Box2DPhysicsDebugSystem physicsDebugSystem = new Box2DPhysicsDebugSystem(world, game.getCamera());
+        FollowerSystem followerSystem = new FollowerSystem(Family.one(TransformComponent.class).get());
+        BoundsSystem boundsSystem = new BoundsSystem();
+        RotationSystem rotationSystem = new RotationSystem();
 
         engine.addSystem(physicsSystem);
         engine.addSystem(aniSystem);
         engine.addSystem(physicsDebugSystem);
+        engine.addSystem(boundsSystem);
+        engine.addSystem(rotationSystem);
+        engine.addSystem(followerSystem);
 
         this.cat = buildBouncingCat(world);
+        Entity followBox = engine.createEntity();
+        followBox.add(TransformComponent.create(engine)
+            .setPosition(10f, 10f, 1f));
+        followBox.add(BoundsComponent.create(engine)
+            .setBounds(0f, 0f, 2f, 2f));
+        followBox.add(FollowerComponent.create(engine)
+            .setOffset(1f, 1f)
+            .setMode(FollowMode.MOVETO)
+            .setFollowSpeed(10f)
+            .setTarget(cat));
+
+        Entity followBox2 = engine.createEntity();
+        followBox2.add(TransformComponent.create(engine)
+                .setPosition(10f, 10f, 1f)
+                .setScale(0.1f, 0.1f));
+        followBox2.add(BoundsComponent.create(engine)
+                .setBounds(0f, 0f, 2f, 2f));
+        followBox2.add(TextureComponent.create(engine)
+            .setRegion(catTexture));
+        followBox2.add(RotationComponent.create(engine)
+            .setRotationSpeed(180f));
+        followBox2.add(FollowerComponent.create(engine)
+                .setOffset(-1f, -1f)
+                .setMatchParentRotation(false)
+                .setMode(FollowMode.MOVETOSTICKY)
+                .setFollowSpeed(10f)
+                .setTarget(cat));
+
         engine.addEntity(cat);
+        engine.addEntity(followBox);
+        engine.addEntity(followBox2);
         engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth/2f, 1f, 5f, 1f));
-        engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth/2f, game.getCamera().viewportHeight - 1f, 5f, 1f));
+        //engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth/2f, game.getCamera().viewportHeight - 1f, 5f, 1f));
         engine.addEntity(buildBasicBox(world, 1f, game.getCamera().viewportHeight/2f, 1f, 5f));
         engine.addEntity(buildBasicBox(world, game.getCamera().viewportWidth - 1f, game.getCamera().viewportHeight/2f, 1f, 5f));
     }
@@ -76,7 +111,7 @@ public class PhysicsScreen extends BaseDemoScreen implements InputProcessor{
         e.add(tc);
 
         TransformComponent tfc = TransformComponent.create(engine)
-            .setPosition(10f, 10f, 1f)
+            .setPosition(10f, 5f, 1f)
             .setRotation(15f)
             .setScale(0.25f, 0.25f);
         e.add(tfc);
