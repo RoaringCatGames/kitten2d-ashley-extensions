@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.6.0]
+
+### Changes
+
+- Updated gradle wrapper to 5.5.1.
+- Updated gwt to 2.8.2.
+- Updated LibGDX to 1.9.10.
+- Fixed an issue with ```AnimationComponent``` not working on 1.9.10, by specifying it to use ```TextureRegion```.
+- Changed Ashley dependency to a SNAPSHOT release of a PR that fixes a GWT issue. (https://github.com/libgdx/ashley/pull/279)
+
 ## [0.5.7-SNAPSHOT]
 
 ### Fixes

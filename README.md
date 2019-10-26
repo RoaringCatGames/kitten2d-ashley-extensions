@@ -96,3 +96,40 @@ A set of Ashley ECS components and systems that are generic, and useful for 2D g
 
 
     //TODO: Provide Example Usage
+
+
+## Example Application
+
+An example application is included under the [/example](example) folder. You can run this example with the gradle command:
+
+```
+./gradlew example:run
+```
+Included in the example are 4 Screens:
+
+### Screen 1
+
+Access by hitting <kbd>1</kbd>.
+
+This screen shows basic rotation, color tweening, text rendering with colors, and a particle emitter.
+
+Hit <kbd>space</kbd> to toggle the particle emissions. 
+
+### Screen 2
+
+Access by hitting <kbd>2</kbd>
+
+This screen shows several position and transform based tweening operations simultaneously.
+
+### Screen 3
+
+Access by hitting <kbd>3</kbd>
+
+This screen shows the bounds system. You can hit <kbd>Tab</kbd> to render the bounds of various items, and the 
+paths between their rotation origins. 
+
+### Screen 4
+
+Access by hitting <kbd>4</kbd>
+
+This shows an example of the physics system, and a "player" you can control with <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>.
